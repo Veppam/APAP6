@@ -2,8 +2,8 @@ import java.sql.*;
 import java.util.Vector;
 
 public class Database {
-    private String URL= "jdbc:" +
-                        "mariadb://" +
+    private String URL= "jdbc:" + //Clase controladora
+                        "mariadb://" + //jdbms
                         "localhost:" + //Dirección IP
                         "3306/" + //Puerto
                         "apap6"; //Nombre base de datos
