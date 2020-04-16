@@ -7,5 +7,11 @@
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mariadb://localhost:3306/apap6</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="apap6" uuid="690bc29e-213d-4c15-9774-4a0ec1db7ceb">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://localhost:3306/apap6</jdbc-url>
+    </data-source>
   </component>
 </project>

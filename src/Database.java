@@ -22,7 +22,7 @@ public class Database {
         }
     }
 
-    private ResultSet makeSqlCons(String sql){
+    public ResultSet makeSqlCons(String sql){
         ResultSet respuesta = null;
         try {
             respuesta = sent.executeQuery(sql);
@@ -105,4 +105,9 @@ public class Database {
         }
         return nombre;
     }
+
+    public Connection getConnection () {
+        return con;
+    }
+
 }

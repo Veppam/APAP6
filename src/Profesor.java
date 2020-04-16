@@ -1,19 +1,31 @@
-import java.util.ArrayList;
-
 public class Profesor {
 
-    private int noCuenta;
+    private int numTrabajador;
     private String nombre;
-    private ArrayList prestamos;
+    private String apPaterno;
+    private String apMaterno;
 
-    public Profesor(int noCuenta, String nombre) {
-        this.noCuenta = noCuenta;
-        this.nombre = nombre;
+    public Profesor ( int numTrab, String nom, String apPat, String apMat ) {
+        numTrabajador = numTrab;
+        nombre = nom;
+        apPaterno = apPat;
+        apMaterno = apMat;
     }
 
-    public void solicitarPrestamo(){}
+    public int getNumTrabajador() {
+        return numTrabajador;
+    }
 
-    public void entregarMaterial(){}
+    public String getNombre() {
+        return nombre;
+    }
 
+    public String getApPaterno() {
+        return apPaterno;
+    }
+
+    public String getApMaterno() {
+        return apMaterno;
+    }
 
 }

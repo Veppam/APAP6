@@ -1,32 +1,28 @@
 public class Material {
 
-    private int noSerie;
-    private int cantidad;
+    private int cod;
     private String nombre;
-    private String imagen;
-    private String descripcion;
+    private int cantDispon = 0;
 
-    public Material(int noSerie, int cantidad, String nombre, String descripcion, String imagen) {
-
-        this.noSerie = noSerie;
-        this.cantidad = cantidad;
+    public Material ( String nombre, int cod, int cantDispon ) {
         this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.imagen = imagen;
-
+        this.cod = cod;
+        this.cantDispon = cantDispon;
     }
 
-    public Material(int noSerie, int cantidad, String nombre, String descripcion) {
-
-        this.noSerie = noSerie;
-        this.cantidad = cantidad;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-
+    public int getCantDispon() {
+        return cantDispon;
     }
 
-    public boolean verDisponibilidad(){
-        return true;
+    public int getCod() {
+        return cod;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setCantDispon(int cantDispon) {
+        this.cantDispon = cantDispon;
+    }
 }
