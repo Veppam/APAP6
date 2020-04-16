@@ -2,8 +2,8 @@ import java.sql.*;
 import java.util.Vector;
 
 public class Database {
-    private String URL= "jdbc:" + //Clase controladora
-                        "mariadb://" + //jdbms
+    private String URL= "jdbc:" +
+                        "mariadb://" +
                         "localhost:" + //Dirección IP
                         "3306/" + //Puerto
                         "apap6"; //Nombre base de datos
@@ -22,7 +22,7 @@ public class Database {
         }
     }
 
-    private ResultSet makeSqlCons(String sql){
+    public ResultSet makeSqlCons(String sql){
         ResultSet respuesta = null;
         try {
             respuesta = sent.executeQuery(sql);
@@ -105,4 +105,9 @@ public class Database {
         }
         return nombre;
     }
+
+    public Connection getConnection () {
+        return con;
+    }
+
 }

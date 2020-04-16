@@ -26,5 +26,6 @@ public class APAP6 {
         }
         else
             System.out.println("No Existe");
+        new MenuPrincipal( new Usuario("Antonio Chong", "dsdada") );
     }
 }
