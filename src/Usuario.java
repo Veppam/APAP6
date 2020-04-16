@@ -59,5 +59,4 @@ public class Usuario {
             e.printStackTrace();
         }
     }
-
 }
