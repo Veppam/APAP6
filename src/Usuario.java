@@ -59,4 +59,14 @@ public class Usuario {
             e.printStackTrace();
         }
     }
+
+    public void agregarMaterial(int No_Serie, String nombre, int Cantidad, String newFile){
+        try{
+            Statement inset = db.getConnection().createStatement();
+            int in = inset.executeUpdate("INSERT INTO material VALUES ("
+                    + No_Serie + ", \""+nombre+"\", " + Cantidad + ", \""+newFile+"\")");
+        }catch (SQLException e){
+            System.out.println ("Error al agregar material");
+        }
+    }
 }

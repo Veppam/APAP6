@@ -26,7 +26,7 @@ public class APAP6 {
         }
         else
             System.out.println("No Existe");
-
+        
         LogIn niu = new LogIn ("LogIn");
     }
 }
