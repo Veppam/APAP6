@@ -31,7 +31,7 @@ public class MenuPrincipal extends JFrame {
         opciones.setLayout( new GridLayout(2,1) );
         btnInicio = new JButton("Consultar préstamos");
         btnPrestamo = new JButton("Hacer préstamos");
-        btnMateriales = new JButton("Materiales");
+        btnMateriales = new JButton("Inventario");
         btnInicio.setPreferredSize(new Dimension(30,15));
         btnPrestamo.setPreferredSize(new Dimension(30,15));
         btnMateriales.setPreferredSize(new Dimension(30,15));
@@ -42,12 +42,10 @@ public class MenuPrincipal extends JFrame {
                 contenedor.removeAll();
                 contenedor.updateUI();
                 contenedor.repaint();
-                contenedor.setLayout(new FlowLayout());
+                contenedor.setLayout(new BorderLayout());
                 aux = new JPanelConsultaPrestamos(usuario );
-                aux.setMaximumSize(new Dimension(300, 400));
                 contenedor.add( aux, BorderLayout.CENTER );
-                //principal.add(contenedor, BorderLayout.CENTER);
-                System.out.println("ENTRË");
+                System.out.println("ENTRe");
             }
         });
 
@@ -75,12 +73,5 @@ public class MenuPrincipal extends JFrame {
         principal.add(contenedor, BorderLayout.CENTER);
         add(principal, BorderLayout.CENTER);
         btnInicio.doClick();
-
-
-
-
-
     }
-
-
 }
