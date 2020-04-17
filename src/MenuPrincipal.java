@@ -34,7 +34,7 @@ public class MenuPrincipal extends JFrame {
         usuario = us;
         icon = new ImageIcon("img/Icono.png").getImage();
         setIconImage(icon);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("APA6");
         setVisible(true);
         setSize(1200,700);

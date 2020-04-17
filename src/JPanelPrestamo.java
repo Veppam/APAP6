@@ -104,8 +104,15 @@ public class JPanelPrestamo extends JPanel {
                 }
                 for ( int x  = 0; x < materialesSeleccionados.size(); x++ )
                     System.out.println(materialesSeleccionados.get(x).getCod());
-                usuario.realizarPrestamo( buscarProfesor(Integer.parseInt(txtNumProfesor.getText())), materialesSeleccionados);
-                btnCancelar.doClick();
+                Profesor prof = buscarProfesor(Integer.parseInt(txtNumProfesor.getText()));
+                if ( prof == null ) {
+                    JOptionPane.showMessageDialog(null, "El número de trabajador ingresado " +
+                            "no existe. Inténtelo de nuevo.");
+                }
+                else{
+                    usuario.realizarPrestamo( prof, materialesSeleccionados);
+                    btnCancelar.doClick();
+                }
             }
         });
 
