@@ -40,7 +40,7 @@ public class AddMateriales extends JFrame{
         id = new JTextField(20);
         idL = new JLabel("N° serie:");
         send = new JButton("Enviar");
-        menu = new JButton("Menú");
+        menu = new JButton("Regresar");
         panela = new JPanel(new GridBagLayout());
         chusL = new JLabel ("Seleccionar imagen (opcional):");
         siChus = new JButton("Agregar");
@@ -105,9 +105,16 @@ public class AddMateriales extends JFrame{
         c.anchor = GridBagConstraints.PAGE_END;
         add(send, c);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 400);
         setVisible(true);
+
+        menu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
         //Guarda variable para copiar archivo
         siChus.addActionListener(new ActionListener() {
             @Override
@@ -137,18 +144,23 @@ public class AddMateriales extends JFrame{
                     if (cT <= 0 || cT > 999){
                         JOptionPane.showConfirmDialog(null, "Mínimo 1, máximo 999 materiales","ERROR", JOptionPane.OK_CANCEL_OPTION);
                     }else{
+                        //int yeap = 0;
                         if (yeahChus == JFileChooser.APPROVE_OPTION) {
                             olFile = chusma.getSelectedFile();
-                            Path to = Paths.get("./img/"+olFile.getName());
-                            System.out.println("Save as file: " + olFile.getAbsolutePath() + olFile.getName());
-                            try {
-                                Files.copy(olFile.toPath(), to);
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
+                            if (olFile != null){
+                                Path to = Paths.get("./img/"+olFile.getName());
+                                System.out.println("Save as file: " + olFile.getAbsolutePath() + olFile.getName());
+                                //yeap = 1;
+                                try {
+                                    Files.copy(olFile.toPath(), to);
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                    //yeap = 0;
+                                }
                             }
                         }
 
-                        if (olFile.exists() == true){
+                        if (olFile != null){
                             System.out.println("Yeah");
                             user.agregarMaterial(idI, sT, cT, "./img/"+olFile.getName());
                         }else user.agregarMaterial(idI, sT, cT, "./imgs/controlProy.png");

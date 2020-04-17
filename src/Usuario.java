@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -65,8 +66,11 @@ public class Usuario {
             Statement inset = db.getConnection().createStatement();
             int in = inset.executeUpdate("INSERT INTO material VALUES ("
                     + No_Serie + ", \""+nombre+"\", " + Cantidad + ", \""+newFile+"\")");
+            JOptionPane.showConfirmDialog(null, "Adición Exitosa",
+                    "ERROR", JOptionPane.OK_CANCEL_OPTION);
         }catch (SQLException e){
-            System.out.println ("Error al agregar material");
+            JOptionPane.showConfirmDialog(null, "Error en la adición",
+                    "ERROR", JOptionPane.OK_CANCEL_OPTION);
         }
     }
 }
