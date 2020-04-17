@@ -4,11 +4,11 @@ import java.util.Vector;
 public class Database {
     private String URL= "jdbc:" +
                         "mariadb://" +
-                        "localhost:" + //Dirección IP
+                        "132.248.96.65:" + //Dirección IP
                         "3306/" + //Puerto
-                        "apap6"; //Nombre base de datos
-    private String USER="root";
-    private String PASSWORD="";
+                        "mod8_1_apa"; //Nombre base de datos
+    private String USER="ete62a";
+    private String PASSWORD="etemysql";
 
     private Connection con;
     private Statement sent;
