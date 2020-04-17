@@ -45,7 +45,7 @@ CREATE TABLE `material` (
 
 LOCK TABLES `material` WRITE;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
-INSERT INTO `material` VALUES (0,'Proyectores',5,'./imgs/proy.png'),(102,'Cables VGA',10,'./imgs/cVGA.png'),(124,'Adaptadores de audio 3.5mm a dos canales',15,'./imgs/adaptAudio35'),(342,'Bocinas',4,'./imgs/bocinas.png'),(548,'Control remoto de proyector',5,'./imgs/controlProy.png'),(629,'Cables de audio 3.5mm',15,'./imgs/cAudio35'),(731,'Cables HDMI',5,'./imgs/cHDMI'),(749,'Laptops',7,'./imgs/laptop.png');
+INSERT INTO `material` VALUES (100,'Proyectores',5,'./imgs/proy.png'),(102,'Cables VGA',10,'./imgs/cVGA.png'),(124,'Adaptadores de audio 3.5mm a dos canales',15,'./imgs/adaptAudio35'),(342,'Bocinas',4,'./imgs/bocinas.png'),(548,'Control remoto de proyector',5,'./imgs/controlProy.png'),(629,'Cables de audio 3.5mm',15,'./imgs/cAudio35'),(731,'Cables HDMI',5,'./imgs/cHDMI'),(749,'Laptops',7,'./imgs/laptop.png');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 UNLOCK TABLES;
 
