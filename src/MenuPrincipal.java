@@ -130,7 +130,10 @@ public class MenuPrincipal extends JFrame {
         itemAgregarMat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddMateriales();
+                contenedor.removeAll();
+                contenedor.updateUI();
+                contenedor.repaint();
+                contenedor.add (new AddMateriales(usuario));
             }
         });
 

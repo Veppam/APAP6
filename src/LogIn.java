@@ -28,8 +28,12 @@ public class LogIn extends JFrame{
         dataCons.gridx = 1;
         dataCons.gridy = 1;
         data.add (pass, dataCons);
+
+        ImageIcon img = new ImageIcon("./img/icono.png");
+
         //Agregar data a Ventana Modal
-        int ret = JOptionPane.showConfirmDialog(null, new JScrollPane(data), modMensaje, JOptionPane.OK_CANCEL_OPTION);
+        int ret = JOptionPane.showConfirmDialog(null, new JScrollPane(data), modMensaje, JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.OK_CANCEL_OPTION, img);
 
         if (ret == JOptionPane.OK_OPTION){
             Database db = new Database();

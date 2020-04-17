@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class AddMateriales extends JFrame{
+public class AddMateriales extends JPanel{
     private JLabel matL;
     private JLabel cantL;
     private JLabel idL;
@@ -19,20 +19,17 @@ public class AddMateriales extends JFrame{
     private JTextField mat;
     private JSpinner cant;
     private JButton send;
-    private JButton menu;
     private JButton siChus;
     private JPanel panela;
     private JFileChooser chusma;
 
-    private Usuario user;
+    private Usuario userr;
     private File olFile;
     private int yeahChus;
 
-    public AddMateriales(){
-        super ("Adición de materiales");
+    public AddMateriales(Usuario user){
         //Database db = new Database();
-        //----------------------FALATA CONFIGURAR ACCESO DE USUARIO POR CONTRASEÑA
-        user = new Usuario ("Yo", "aiwei");
+        userr = user;
         matL = new JLabel("Nombre:");
         mat = new JTextField(20);
         cantL = new JLabel("Cantidad:");
@@ -40,7 +37,7 @@ public class AddMateriales extends JFrame{
         id = new JTextField(20);
         idL = new JLabel("N° serie:");
         send = new JButton("Enviar");
-        menu = new JButton("Regresar");
+        //menu = new JButton("Regresar");
         panela = new JPanel(new GridBagLayout());
         chusL = new JLabel ("Seleccionar imagen (opcional):");
         siChus = new JButton("Agregar");
@@ -93,28 +90,16 @@ public class AddMateriales extends JFrame{
         c.gridy = 3;
         add(siChus, c);
 
-        c.gridx = 1;
-        c.gridy = 4;
-        c.weighty = 0.1;
-        c.anchor = GridBagConstraints.PAGE_END;
-        add(menu, c);
-
         c.gridx = 3;
         c.gridy = 4;
         c.weighty = 0.1;
         c.anchor = GridBagConstraints.PAGE_END;
         add(send, c);
 
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 400);
+        ImageIcon img = new ImageIcon("./img/icono.png");
         setVisible(true);
 
-        menu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
         //Guarda variable para copiar archivo
         siChus.addActionListener(new ActionListener() {
             @Override
@@ -124,12 +109,6 @@ public class AddMateriales extends JFrame{
             }
         });
         //-------------REGRESA A MENÚ (FALTA)
-        menu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println ("Return");
-            }
-        });
         //SALVA EN BD
         send.addActionListener(new ActionListener() {
             @Override
@@ -144,26 +123,23 @@ public class AddMateriales extends JFrame{
                     if (cT <= 0 || cT > 999){
                         JOptionPane.showConfirmDialog(null, "Mínimo 1, máximo 999 materiales","ERROR", JOptionPane.OK_CANCEL_OPTION);
                     }else{
-                        //int yeap = 0;
                         if (yeahChus == JFileChooser.APPROVE_OPTION) {
                             olFile = chusma.getSelectedFile();
                             if (olFile != null){
                                 Path to = Paths.get("./img/"+olFile.getName());
                                 System.out.println("Save as file: " + olFile.getAbsolutePath() + olFile.getName());
-                                //yeap = 1;
                                 try {
                                     Files.copy(olFile.toPath(), to);
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
-                                    //yeap = 0;
                                 }
                             }
                         }
 
                         if (olFile != null){
                             System.out.println("Yeah");
-                            user.agregarMaterial(idI, sT, cT, "./img/"+olFile.getName());
-                        }else user.agregarMaterial(idI, sT, cT, "./imgs/controlProy.png");
+                            userr.agregarMaterial(idI, sT, cT, "./img/"+olFile.getName());
+                        }else userr.agregarMaterial(idI, sT, cT, "./imgs/controlProy.png");
 
 
                     }
