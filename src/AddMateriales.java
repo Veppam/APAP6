@@ -27,7 +27,8 @@ public class AddMateriales extends JPanel{
     private File olFile;
     private int yeahChus;
 
-
+    //Constructor de AddMateriales, pide el usuario que intenta agregar un material y el numero de serie del Material
+    //En caso de que el numero de serie sea provisto, este no se pedira en el formulario para agregar un material
     public AddMateriales(Usuario user, String noSerie){
       
         //Database db = new Database();
@@ -55,6 +56,7 @@ public class AddMateriales extends JPanel{
         GridBagConstraints c = new GridBagConstraints();
         //-------FORM DATOS
 
+        //Si se proporciono un numero de serie este no sera solicitado nuevamente
         if (noSerie.isEmpty()) {
             c.gridx = 0;
             c.gridy = 0;
@@ -121,6 +123,7 @@ public class AddMateriales extends JPanel{
 
                 String idT;
 
+                //Si el numero de serie fue proporcionado como parametro del constructor este se le asigna como valor a idt
                 if (noSerie.isEmpty())
                     idT = id.getText();
                 else
@@ -151,6 +154,7 @@ public class AddMateriales extends JPanel{
                         if (olFile != null){
                             System.out.println("Yeah");
 
+                            //Si el numero de serie fue proporcionado como parametro del constructor se realiza una modificacion de material en vez de agregar uno nuevo
                             if (noSerie.isEmpty())
                                 userr.agregarMaterial(idI, sT, cT, "./img/"+olFile.getName());
                             else
