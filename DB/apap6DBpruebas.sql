@@ -63,7 +63,7 @@ CREATE TABLE `material_prestado` (
   KEY `id_material` (`id_material`),
   KEY `id_prestamo` (`id_prestamo`),
   CONSTRAINT `material_prestado_ibfk_1` FOREIGN KEY (`id_material`) REFERENCES `material` (`id_material`) ON DELETE CASCADE,
-  CONSTRAINT `material_prestado_ibfk_2` FOREIGN KEY (`id_prestamo`) REFERENCES `prestamo` (`id_prestamo`)
+  CONSTRAINT `material_prestado_ibfk_2` FOREIGN KEY (`id_prestamo`) REFERENCES `prestamo` (`id_prestamo`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
