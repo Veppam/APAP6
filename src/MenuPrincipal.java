@@ -90,12 +90,11 @@ public class MenuPrincipal extends JFrame {
                 contenedor.removeAll();
                 contenedor.updateUI();
                 contenedor.repaint();
-                contenedor.setLayout(new FlowLayout());
+                contenedor.setLayout(new BorderLayout());
                 aux = new JPanelConsultaPrestamos(usuario );
                 aux.setMaximumSize(new Dimension(300, 400));
-                contenedor.add( aux, BorderLayout.CENTER );
-                //principal.add(contenedor, BorderLayout.CENTER);
-                System.out.println("ENTRË");
+                contenedor.add( aux, BorderLayout.CENTER);
+                System.out.println("ENTRÉ");
             }
         });
 
