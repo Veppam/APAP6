@@ -5,6 +5,10 @@
       <element id="module-output" name="APAP6" />
       <element id="extracted-dir" path="$APPLICATION_CONFIG_DIR$/jdbc-drivers/MariaDB Connector J/2.4.1/mariadb-java-client-2.4.1.jar" path-in-jar="/" />
       <element id="dir-copy" path="$PROJECT_DIR$/img" />
+      <element id="file-copy" path="$PROJECT_DIR$/img/img.jpg" />
+      <element id="file-copy" path="$PROJECT_DIR$/img/Icono.png" />
+      <element id="file-copy" path="$PROJECT_DIR$/img/fachadas.jpeg" />
+      <element id="file-copy" path="$PROJECT_DIR$/img/Creditos.png" />
     </root>
   </artifact>
 </component>
