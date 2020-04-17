@@ -110,15 +110,4 @@ public class Database {
         return con;
     }
 
-    public boolean valUsuario(String nom, String contra){
-        String[] usuario1 = getDBUsers()[0];
-        String[] usuario2 = getDBUsers()[1];
-
-        if (nom.equals(usuario1[0]) == true && contra.equals(usuario1[1]) == true)
-            return true;
-        if (nom.equals(usuario2[0]) == true && contra.equals(usuario2[1]) == true)
-            return  true;
-        return false;
-    }
-
 }

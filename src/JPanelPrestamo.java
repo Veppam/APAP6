@@ -117,7 +117,10 @@ public class JPanelPrestamo extends JPanel {
         });
 
         add(titulo, BorderLayout.NORTH);
-        add(datos, BorderLayout.CENTER);
+        datosScroll = new JScrollPane(datos);
+        datosScroll.setSize(500,400);
+        datos.setSize(500,400);
+        add(datosScroll, BorderLayout.CENTER);
         botones.add(btnAceptar);
         botones.add(btnCancelar);
         add(botones, BorderLayout.SOUTH);
