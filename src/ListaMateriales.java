@@ -5,7 +5,6 @@ import java.util.Vector;
 public class ListaMateriales extends JPanel {
 
     private Database DB= new Database();
-
     public ListaMateriales(){
 
         Vector materials = DB.getDBMaterials(); //Obtiene los materiales en la base de datos
@@ -24,6 +23,7 @@ public class ListaMateriales extends JPanel {
         C4.setLayout(new GridLayout(rows + 1, 1));
 
         C1.add(new JLabel());
+
         for (int i=0; i<materials.size();i++) { //Añadir la imagen a un JLabel para poner en el gridLayout
             Vector mat= (Vector) materials.get(i);
             //String imgPath= (String) mat.get(3);
@@ -32,6 +32,7 @@ public class ListaMateriales extends JPanel {
             img.setIcon(new ImageIcon(imgPath));
             C1.add(img);
         }
+      
         C2.add(new JLabel()); //Añadir el nombre del material en un JLabel para añadir al GridLayout
         for(int i=0; i<materials.size();i++){
             Vector mat= (Vector) materials.get(i);
@@ -55,7 +56,7 @@ public class ListaMateriales extends JPanel {
         }
 
         Insets inset = new Insets(0, 5, 0, 0);
-        
+      
         add(C1, new GridBagConstraints(
                 0, 0, 1, 1, 1.0, 1.0,
                 GridBagConstraints.EAST,
@@ -80,5 +81,7 @@ public class ListaMateriales extends JPanel {
                 GridBagConstraints.BOTH,
                 inset, 0, 0
         ));
+      
     }
+  
 }

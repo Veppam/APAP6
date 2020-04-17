@@ -133,7 +133,7 @@ public class MenuPrincipal extends JFrame {
                 contenedor.removeAll();
                 contenedor.updateUI();
                 contenedor.repaint();
-                contenedor.add (new AddMateriales(usuario));
+                contenedor.add (new AddMateriales(usuario, ""));
             }
         });
 
@@ -156,9 +156,16 @@ public class MenuPrincipal extends JFrame {
             }
         });
 
-
-
-
+        itemConsultMat.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                contenedor.removeAll();
+                contenedor.updateUI();
+                contenedor.repaint();
+                contenedor.setLayout(new BorderLayout());
+                contenedor.add(new ModificarMaterial(contenedor, usuario), BorderLayout.CENTER);
+            }
+        });
 
     }
 
