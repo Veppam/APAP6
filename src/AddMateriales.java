@@ -107,6 +107,8 @@ public class AddMateriales extends JFrame{
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 400);
+        ImageIcon img = new ImageIcon("./img/icono.png");
+        setIconImage(img.getImage());
         setVisible(true);
 
         menu.addActionListener(new ActionListener() {
