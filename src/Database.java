@@ -106,6 +106,76 @@ public class Database {
         return nombre;
     }
 
+    public boolean valUsuario(String nom, String contra){
+        String[] usuario1 = getDBUsers()[0];
+        String[] usuario2 = getDBUsers()[1];
+
+        if (nom.equals(usuario1[0]) && contra.equals(usuario1[1]))
+            return true;
+        if (nom.equals(usuario2[0]) && contra.equals(usuario2[1]))
+            return  true;
+        return false;
+    }
+    public Vector getMaterialOcc(){
+        String subSql= "SELECT id_material FROM material";
+        ResultSet res= makeSqlCons(subSql);
+        Vector <Integer> ocupados= new Vector<Integer>();
+        Vector <String> mats= new Vector();
+        boolean fin=false;
+        try {
+            while (!fin) {
+                if(res.next()) {
+                    mats.add(res.getNString("id_material"));
+                }else{
+                    fin=true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for(String id:mats) {
+            String sql = "SELECT cantidad FROM material_prestado WHERE id_material=" + id;
+            ResultSet result= makeSqlCons(sql);
+            //Vector <String> numsOcup= new Vector <String>();
+            //Sumar los resultados de cada préstamo
+            int num=0;
+            boolean end= false;
+            while (!end){
+                try {
+                    if(result.next()){
+                        num+=result.getInt("cantidad");
+                    }else{
+                        end=true;
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            ocupados.add(num);
+        }
+        return ocupados;
+    }
+
+    public Vector getDBCantidadMat(){
+        Vector<Integer> total= new Vector<Integer>();
+        String sql= "SELECT cantidad FROM material ";
+        ResultSet res= makeSqlCons(sql);
+        boolean end=false;
+        while (!end){
+            try {
+                if(res.next()){
+                    total.add(res.getInt("cantidad"));
+                }else{
+                    end=true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return total;
+    }
+
     public Connection getConnection () {
         return con;
     }
