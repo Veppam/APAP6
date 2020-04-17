@@ -43,7 +43,7 @@ public class MenuPrincipal extends JFrame {
                 contenedor.updateUI();
                 contenedor.repaint();
                 contenedor.setLayout(new BorderLayout());
-                aux = new JPanelConsultaPrestamos(usuario );
+                aux = new JPanelConsultaPrestamos(usuario);
                 contenedor.add( aux, BorderLayout.CENTER );
                 System.out.println("ENTRe");
             }
