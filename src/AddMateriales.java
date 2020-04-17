@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class AddMateriales extends JFrame{
+public class AddMateriales extends JPanel{
     private JLabel matL;
     private JLabel cantL;
     private JLabel idL;
@@ -29,7 +29,6 @@ public class AddMateriales extends JFrame{
     private int yeahChus;
 
     public AddMateriales(){
-        super ("Adición de materiales");
         //Database db = new Database();
         //----------------------FALATA CONFIGURAR ACCESO DE USUARIO POR CONTRASEÑA
         user = new Usuario ("Yo", "aiwei");
@@ -40,7 +39,7 @@ public class AddMateriales extends JFrame{
         id = new JTextField(20);
         idL = new JLabel("N° serie:");
         send = new JButton("Enviar");
-        menu = new JButton("Regresar");
+        //menu = new JButton("Regresar");
         panela = new JPanel(new GridBagLayout());
         chusL = new JLabel ("Seleccionar imagen (opcional):");
         siChus = new JButton("Agregar");
@@ -93,11 +92,11 @@ public class AddMateriales extends JFrame{
         c.gridy = 3;
         add(siChus, c);
 
-        c.gridx = 1;
+        /*c.gridx = 1;
         c.gridy = 4;
         c.weighty = 0.1;
         c.anchor = GridBagConstraints.PAGE_END;
-        add(menu, c);
+        add(menu, c);*/
 
         c.gridx = 3;
         c.gridy = 4;
@@ -105,18 +104,18 @@ public class AddMateriales extends JFrame{
         c.anchor = GridBagConstraints.PAGE_END;
         add(send, c);
 
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 400);
         ImageIcon img = new ImageIcon("./img/icono.png");
-        setIconImage(img.getImage());
+        //setIconImage(img.getImage());
         setVisible(true);
 
-        menu.addActionListener(new ActionListener() {
+        /*menu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
-        });
+        });*/
         //Guarda variable para copiar archivo
         siChus.addActionListener(new ActionListener() {
             @Override
@@ -126,12 +125,6 @@ public class AddMateriales extends JFrame{
             }
         });
         //-------------REGRESA A MENÚ (FALTA)
-        menu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println ("Return");
-            }
-        });
         //SALVA EN BD
         send.addActionListener(new ActionListener() {
             @Override
