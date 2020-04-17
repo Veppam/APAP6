@@ -10,7 +10,7 @@ public class LogIn extends JFrame{
         JLabel nomLa = new JLabel("Nombre:");
         JLabel passLab = new JLabel("Contraseña:");
         JPanel data = new JPanel();
-
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         data.setLayout(new GridBagLayout());
         GridBagConstraints dataCons = new GridBagConstraints();
         //Acomodar inputs nombre y contraseña
