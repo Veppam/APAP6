@@ -183,15 +183,13 @@ public class Database {
         return total;
     }
 
-
+    //Modifica un material en la base de datos conforme al material recibido como parametro
     public void modificarMaterial(Material materialModificado){
         try {
             Statement modificacion = con.createStatement();
             modificacion.executeUpdate("UPDATE material SET nombre = " + materialModificado.getNombre() +
-                    ", cantidad = " + materialModificado.getCantDispon() +
-                    " WHERE id_material = " + materialModificado.getCod() + ";");
-
-
+                                        ", cantidad = " + materialModificado.getCantDispon() +
+                                        " WHERE id_material = " + materialModificado.getCod() + ";");
 
         } catch (SQLException e) {
             e.printStackTrace();

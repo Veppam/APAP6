@@ -29,8 +29,6 @@ public class JPanelPrestamo extends JPanel {
     private ArrayList<Material> materialesDispon;
     private Profesor profesor;
 
-
-
     public JPanelPrestamo(JButton cancelar, Usuario usuario) {
         setLayout(new BorderLayout());
         titulo = new JPanel();
