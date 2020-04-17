@@ -61,6 +61,17 @@ public class MenuPrincipal extends JFrame {
                 contenedor.add( new JPanelPrestamo( btnInicio, usuario ), BorderLayout.CENTER );
             }
         });
+
+        btnMateriales.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                contenedor.removeAll();
+                contenedor.updateUI();
+                contenedor.repaint();
+                contenedor.setLayout(new FlowLayout());
+                contenedor.add(new ListaMateriales());
+            }
+        });
         txtEncabezado = new JLabel("Administración de préstamos audiovisuales");
         btnsOpciones = new JPanel();
         btnsOpciones.setLayout(new GridLayout(4,1));
