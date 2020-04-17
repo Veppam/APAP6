@@ -150,7 +150,7 @@ public class MenuPrincipal extends JFrame {
                 contenedor.updateUI();
                 contenedor.repaint();
                 // Agrega el JPanel para agregar materiales en el JPanel contenedor
-                contenedor.add (new AddMateriales(usuario, ""));
+                contenedor.add (new AddMateriales(contenedor,usuario, ""));
             }
         });
 
