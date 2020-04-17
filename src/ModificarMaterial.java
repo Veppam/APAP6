@@ -112,15 +112,24 @@ public class ModificarMaterial extends JPanel{
                                                                 "¿Estas Seguro?",
                                                                  JOptionPane.YES_NO_OPTION,
                                                                  JOptionPane.WARNING_MESSAGE);
+                        //Verifica si el usuario de verdad quiere borrar el material
                         if (resp == JOptionPane.YES_OPTION){
                             user.eliminarMaterial(Integer.parseInt((String) Materiales.getModel().getValueAt(row, 0)));
+                            //Actualiza la tabla de materiales que se muestra en pantalla
+                            contenedor.removeAll();
+                            contenedor.updateUI();
+                            contenedor.repaint();
+                            contenedor.setLayout(new BorderLayout());
+                            contenedor.add(new ModificarMaterial(contenedor, user), BorderLayout.CENTER);
+
                         }
                     // Si es el otro boton, reemplaza el panel con el de agregar material, pero sin pedir el numero de serie
                     }else {
                         contenedor.removeAll();
                         contenedor.updateUI();
                         contenedor.repaint();
-                        contenedor.add (new AddMateriales(user, (String) Materiales.getModel().getValueAt(row, 0)));
+                        contenedor.add (new AddMateriales(contenedor ,user, (String) Materiales.getModel().getValueAt(row, 0)));
+
                     }
                 };
             }

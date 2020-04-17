@@ -27,9 +27,9 @@ public class AddMateriales extends JPanel{
     private File olFile;
     private int yeahChus;
 
-    //Constructor de AddMateriales, pide el usuario que intenta agregar un material y el numero de serie del Material
+    //Constructor de AddMateriales, pide el JPanel que contiene a AddMateriales, el usuario que intenta agregar un material y el numero de serie del Material
     //En caso de que el numero de serie sea provisto, este no se pedira en el formulario para agregar un material
-    public AddMateriales(Usuario user, String noSerie){
+    public AddMateriales(JPanel contenedor, Usuario user, String noSerie){
       
         //Database db = new Database();
         userr = user;
@@ -166,7 +166,12 @@ public class AddMateriales extends JPanel{
                             else
                                 userr.modificarMaterial(new Material( sT, idI, cT));
                         }
-
+                        //Muestra la tabla de materiales en el inventario
+                        contenedor.removeAll();
+                        contenedor.updateUI();
+                        contenedor.repaint();
+                        contenedor.setLayout(new BorderLayout());
+                        contenedor.add(new ModificarMaterial(contenedor, user), BorderLayout.CENTER);
                     }
                 }else{
                     JOptionPane.showConfirmDialog(null, "Tus datos están incorrectos (N° Serie son puros números)",
