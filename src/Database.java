@@ -147,17 +147,17 @@ public class Database {
         return ocupados;
     }
 
-    public Vector getDBCantidadMat(){
-        Vector<Integer> total= new Vector<Integer>();
-        String sql= "SELECT cantidad FROM material ";
-        ResultSet res= makeSqlCons(sql);
-        boolean end=false;
-        while (!end){
+    public Vector getDBCantidadMat() {
+        Vector<Integer> total = new Vector<Integer>();
+        String sql = "SELECT cantidad FROM material ";
+        ResultSet res = makeSqlCons(sql);
+        boolean end = false;
+        while (!end) {
             try {
-                if(res.next()){
+                if (res.next()) {
                     total.add(res.getInt("cantidad"));
-                }else{
-                    end=true;
+                } else {
+                    end = true;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -165,11 +165,6 @@ public class Database {
         }
         return total;
     }
-
-    public Connection getConnection () {
-        return con;
-    }
-
     public boolean valUsuario(String nom, String contra){
         String[] usuario1 = getDBUsers()[0];
         String[] usuario2 = getDBUsers()[1];
@@ -180,5 +175,10 @@ public class Database {
             return  true;
         return false;
     }
+
+    public Connection getConnection () {
+        return con;
+    }
+
 
 }
