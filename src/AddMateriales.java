@@ -27,7 +27,9 @@ public class AddMateriales extends JPanel{
     private File olFile;
     private int yeahChus;
 
+
     public AddMateriales(Usuario user, String noSerie){
+      
         //Database db = new Database();
         userr = user;
         matL = new JLabel("Nombre:");
@@ -52,6 +54,7 @@ public class AddMateriales extends JPanel{
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         //-------FORM DATOS
+
         if (noSerie.isEmpty()) {
             c.gridx = 0;
             c.gridy = 0;
@@ -61,7 +64,7 @@ public class AddMateriales extends JPanel{
             c.gridy = 0;
             panela.add(id, c);
         }
-
+      
         c.gridx = 0;
         c.gridy = 1;
         panela.add(matL, c);
@@ -115,6 +118,7 @@ public class AddMateriales extends JPanel{
         send.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 String idT;
 
                 if (noSerie.isEmpty())
@@ -158,6 +162,7 @@ public class AddMateriales extends JPanel{
                             else
                                 userr.modificarMaterial(new Material( sT, idI, cT));
                         }
+
                     }
                 }else{
                     JOptionPane.showConfirmDialog(null, "Tus datos están incorrectos (N° Serie son puros números)",

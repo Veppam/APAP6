@@ -183,6 +183,7 @@ public class Database {
         return total;
     }
 
+
     public void modificarMaterial(Material materialModificado){
         try {
             Statement modificacion = con.createStatement();

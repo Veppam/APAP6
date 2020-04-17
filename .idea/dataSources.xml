@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="BD_APA" uuid="e24f1b71-9f59-4ad6-afa0-36d72470cce1">
+    <data-source source="LOCAL" name="apap6" uuid="ddf51d1c-d3a2-4028-b455-221cd99bd292">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://localhost:3306/apap6</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="apap6@localhost" uuid="fd313f0b-04a4-4529-8dd6-d68f532325f5">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
