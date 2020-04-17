@@ -143,7 +143,7 @@ public class MenuPrincipal extends JFrame {
                 contenedor.removeAll();
                 contenedor.updateUI();
                 contenedor.repaint();
-                contenedor.add (new AddMateriales());
+                contenedor.add (new AddMateriales(usuario));
             }
         });
 
