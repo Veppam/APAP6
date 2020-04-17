@@ -22,7 +22,7 @@ public class Database {
         }
     }
 
-    public ResultSet makeSqlCons(String sql){
+    public ResultSet makeSqlCons(String sql){ //Metodo para realizar consultas
         ResultSet respuesta = null;
         try {
             respuesta = sent.executeQuery(sql);
@@ -31,14 +31,14 @@ public class Database {
         }
         return respuesta;
     }
-    public void exeSql(String sql){
+    public void exeSql(String sql){ //Metodo para ejecutar inserciones, actualizaciones o borrados
         try {
             sent.executeUpdate(sql);
         } catch (SQLException ex) {
             System.out.println("Error en ejecución SQL");
         }
     }
-    public String[][] getDBUsers(){
+    public String[][] getDBUsers(){ //Obtiene los usarios de la base
         String[] user1 = new String[2];
         String[] user2 = new String[2];
 
@@ -60,7 +60,7 @@ public class Database {
         return new String[][]{user1, user2};
     }
 
-    public Vector getDBMaterials(){
+    public Vector getDBMaterials(){ //Obtiene toda la info de los materiales
         Vector materials= new Vector();
         String sql= "SELECT * FROM material";
         ResultSet res= makeSqlCons(sql);
@@ -83,7 +83,7 @@ public class Database {
         return materials;
     }
 
-    public boolean matchTrabNum(String TN){
+    public boolean matchTrabNum(String TN){ //Valida si el no ingresado pertenece al id de un profesor
         boolean exist= false;
         String sql= "SELECT nombre FROM profesor WHERE id_profesor="+TN;
         ResultSet res= makeSqlCons(sql);
@@ -96,7 +96,7 @@ public class Database {
         return exist;
     }
 
-    public String[] getDBprofessorData(String NT){
+    public String[] getDBprofessorData(String NT){ //DEc¿vuelve toda la informacion de un profesor
         String[] nombre= new String[3];
 
         String sql= "SELECT ap_paterno, ap_materno, nombre FROM profesor WHERE id_profesor= "+NT;
@@ -113,7 +113,7 @@ public class Database {
         return nombre;
     }
 
-    public boolean valUsuario(String nom, String contra){
+    public boolean valUsuario(String nom, String contra){ //Valida al usuario
         String[] usuario1 = getDBUsers()[0];
         String[] usuario2 = getDBUsers()[1];
 
@@ -123,7 +123,7 @@ public class Database {
             return  true;
         return false;
     }
-    public Vector getMaterialOcc(){
+    public Vector getMaterialOcc(){ //Devuelve los materiales ocupados
         String subSql= "SELECT id_material FROM material";
         ResultSet res= makeSqlCons(subSql);
         Vector <Integer> ocupados= new Vector<Integer>();
@@ -164,7 +164,7 @@ public class Database {
         return ocupados;
     }
 
-    public Vector getDBCantidadMat(){
+    public Vector getDBCantidadMat(){ //Devuelve el total de materiales disponibles
         Vector<Integer> total= new Vector<Integer>();
         String sql= "SELECT cantidad FROM material ";
         ResultSet res= makeSqlCons(sql);
