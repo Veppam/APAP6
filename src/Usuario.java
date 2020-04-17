@@ -73,4 +73,21 @@ public class Usuario {
                     "ERROR", JOptionPane.OK_CANCEL_OPTION);
         }
     }
+
+    public void modificarMaterial(Material materialModificado){
+
+        db.exeSql("UPDATE material SET nombre = '" + materialModificado.getNombre() +
+                  "', cantidad = '" + materialModificado.getCantDispon() +
+                  "' WHERE id_material = " + materialModificado.getCod() + ";");
+        JOptionPane.showConfirmDialog(null, "Modificación Exitosa",
+                "ERROR", JOptionPane.OK_CANCEL_OPTION);
+    }
+
+    public void eliminarMaterial(int noSerie){
+        db.exeSql("UPDATE material_prestado SET id_material = null WHERE id_material = " + noSerie + ";");
+        db.exeSql("DELETE FROM material WHERE id_material = " + noSerie + ";");
+        JOptionPane.showConfirmDialog(null, "Eliminación Exitosa",
+                "ERROR", JOptionPane.OK_CANCEL_OPTION);
+    }
+
 }

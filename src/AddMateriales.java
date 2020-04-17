@@ -27,7 +27,9 @@ public class AddMateriales extends JPanel{
     private File olFile;
     private int yeahChus;
 
-    public AddMateriales(Usuario user){
+
+    public AddMateriales(Usuario user, String noSerie){
+      
         //Database db = new Database();
         userr = user;
         matL = new JLabel("Nombre:");
@@ -52,14 +54,17 @@ public class AddMateriales extends JPanel{
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         //-------FORM DATOS
-        c.gridx = 0;
-        c.gridy = 0;
-        panela.add(idL, c);
 
-        c.gridx = 1;
-        c.gridy = 0;
-        panela.add (id, c);
+        if (noSerie.isEmpty()) {
+            c.gridx = 0;
+            c.gridy = 0;
+            panela.add(idL, c);
 
+            c.gridx = 1;
+            c.gridy = 0;
+            panela.add(id, c);
+        }
+      
         c.gridx = 0;
         c.gridy = 1;
         panela.add(matL, c);
@@ -113,7 +118,14 @@ public class AddMateriales extends JPanel{
         send.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String idT = id.getText();
+
+                String idT;
+
+                if (noSerie.isEmpty())
+                    idT = id.getText();
+                else
+                    idT = noSerie;
+
                 String sT = mat.getText();
                 //Revisa que
                 if (sT.equals("") == false && idT.matches("[0-9]{1,3}") == true){
@@ -138,9 +150,18 @@ public class AddMateriales extends JPanel{
 
                         if (olFile != null){
                             System.out.println("Yeah");
-                            userr.agregarMaterial(idI, sT, cT, "./img/"+olFile.getName());
-                        }else userr.agregarMaterial(idI, sT, cT, "./imgs/controlProy.png");
 
+                            if (noSerie.isEmpty())
+                                userr.agregarMaterial(idI, sT, cT, "./img/"+olFile.getName());
+                            else
+                                userr.modificarMaterial(new Material( sT, idI, cT));
+
+                        } else {
+                            if (noSerie.isEmpty())
+                                userr.agregarMaterial(idI, sT, cT, "./imgs/controlProy.png");
+                            else
+                                userr.modificarMaterial(new Material( sT, idI, cT));
+                        }
 
                     }
                 }else{
