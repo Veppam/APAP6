@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 
 public class LogIn extends JFrame{
@@ -13,22 +14,17 @@ public class LogIn extends JFrame{
         data.setLayout(new GridBagLayout());
         GridBagConstraints dataCons = new GridBagConstraints();
         //Acomodar inputs nombre y contraseña
-        dataCons.fill = GridBagConstraints.HORIZONTAL;
         dataCons.gridx = 0;
         dataCons.gridy = 0;
         data.add (nomLa, dataCons);
-
-        dataCons.fill = GridBagConstraints.HORIZONTAL;
         dataCons.gridx = 1;
         dataCons.gridy = 0;
         data.add (nombre, dataCons);
-
         dataCons.fill = GridBagConstraints.HORIZONTAL;
         dataCons.gridx = 0;
         dataCons.gridy = 1;
         data.add (passLab, dataCons);
 
-        dataCons.fill = GridBagConstraints.HORIZONTAL;
         dataCons.gridx = 1;
         dataCons.gridy = 1;
         data.add (pass, dataCons);
