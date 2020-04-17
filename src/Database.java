@@ -31,6 +31,13 @@ public class Database {
         }
         return respuesta;
     }
+    public void exeSql(String sql){
+        try {
+            sent.executeUpdate(sql);
+        } catch (SQLException ex) {
+            System.out.println("Error en ejecución SQL");
+        }
+    }
     public String[][] getDBUsers(){
         String[] user1 = new String[2];
         String[] user2 = new String[2];
