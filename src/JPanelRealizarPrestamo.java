@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class JPanelRealizarPrestamo {
+    // Declaración de componentes de la interfaz
     private JLabel Nombre;
     private JButton btnAgregarMat;
     private JFormattedTextField txtNumProfesor;
@@ -15,32 +16,37 @@ public class JPanelRealizarPrestamo {
     private JPanel datos;
     private JButton btnAceptar;
     private JButton btnCancelar;
+
+    // Objeto que me ayudará con la comunicación con la base de datos
     private Database db;
+    // Me ayudará para poner los JComboBox de acuerdo al layout GridBagLayout
     GridBagConstraints gbc = new GridBagConstraints();
+    // Materiales disponibles según la BD
     private ArrayList<Material> materialesDispon;
 
     public JPanelRealizarPrestamo(Usuario usuario, JMenuItem cancelar) {
-        //datos.setPreferredSize(new Dimension(250,400));
         db = new Database();
         materialesDispon = getDBMatDispon();
-        paneel.setFont( new Font("Monospaced", Font.BOLD, 36) );
-        datos.setFont( new Font("Monospaced", Font.BOLD, 30) );
+        // Evento del botón para agregar material
         btnAgregarMat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Checo si no hay más de 5 materiales a prestar
                 if ( datos.getComponentCount() < 16 ) {
                     JComboBox<String> selectMaterial = new JComboBox<String>();
                     Material m;
+                    // Agrego al arrayList materialesDispon los materiales disponibles para prestar
                     for ( int x = 0; x < materialesDispon.size(); x++ ) {
                         m = materialesDispon.get(x);
                         if ( m.getCantDispon() > 0 )
                             selectMaterial.addItem( m.getNombre() );
                     }
                     JButton btnElim = new JButton("Eliminar");
+                    // Evento del botón eliminar de cada material
                     btnElim.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            System.out.println( datos.getComponentCount() );
+                            // Verifico que haya más de un material
                             if ( datos.getComponentCount() > 3  ) {
                                 datos.remove(datos.getComponentZOrder(btnElim)-2);
                                 datos.remove(datos.getComponentZOrder(btnElim)-1);
@@ -48,43 +54,52 @@ public class JPanelRealizarPrestamo {
                                 datos.updateUI();
                                 datos.repaint();
                             }
+                            // Si no hay por lo menos dos materiales, le informo que el préstamo debe contener al menos uno
                             else{
                                 JOptionPane.showMessageDialog(null, "El préstamo por lo menos debe" +
                                         " de tener un material.");
                             }
                         }
                     });
+                    // Agrego al JPanel datos el nuevo material
                     agregarMat(selectMaterial, btnElim);
                 }
+                // Si ya hay 6 materiales, le informo que no se pueden prestar 7 o más materiales en el mismo registro de préstamo
                 else{
                     JOptionPane.showMessageDialog(null, "Se puede prestar mázimo 6 materiales " +
                             "a la vez. Si desea prestar más materiales al mismo profesor, favor de registrar este " +
                             "préstamo, y empezar un registrar un segundo. Ambos registros se unificarán.");
                 }
+                // Actualizo la interfaz
                 datos.updateUI();
                 datos.repaint();
             }
         });
-
+        // Agregó un material para que empieze el registro con uno
         btnAgregarMat.doClick();
+        // Evento para el botón aceptar el cual hará el préstamo
         btnAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Material> materialesSeleccionados = new ArrayList<Material>();
                 int select = 0;
                 JComboBox<String> selectMaterial;
+                // Recorro los JComboBox del JPanel datos
                 while (select < datos.getComponentCount()) {
                     selectMaterial = (JComboBox<String>) datos.getComponent( select );
+                    //Agrego el material seleccionado al arrayList de materialesSeleccionados
                     materialesSeleccionados.add(buscarMaterial(materialesDispon, (String) selectMaterial.getSelectedItem() ));
+                    // Me salto los tres componentes que no son JComboBox
                     select += 3;
                 }
-                for ( int x  = 0; x < materialesSeleccionados.size(); x++ )
-                    System.out.println(materialesSeleccionados.get(x).getCod());
+                // Creo al objetoProfesor
                 Profesor prof = buscarProfesor(Integer.parseInt(txtNumProfesor.getText()));
+                // Si no existe ningún profesor con el número de trabajador ingresado, le informo al usuario
                 if ( prof == null ) {
-                JOptionPane.showMessageDialog(null, "El número de trabajador ingresado " +
-                        "no existe. Inténtelo de nuevo.");
+                    JOptionPane.showMessageDialog(null, "El número de trabajador ingresado " +
+                            "no existe. Inténtelo de nuevo.");
                 }
+                // Si existe el profesor con el número de trabajador ingresado, se realiza el préstamo y regresa a consultar préstamos
                 else{
                     usuario.realizarPrestamo( prof, materialesSeleccionados);
                     btnCancelar.doClick();
@@ -92,6 +107,7 @@ public class JPanelRealizarPrestamo {
             }
         });
 
+        // Evento del botón cancelar que cancela el registro del préstamo y te regresa a consultar préstamos
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -100,10 +116,12 @@ public class JPanelRealizarPrestamo {
         });
     }
 
+    // Regresa el JPanel principal del form
     public JPanel getPaneel() {
         return  paneel;
     }
 
+    // Agrega un nuevo JComboBox de material a JPanel datos
     public void agregarMat( JComboBox<String> opciones, JButton eliminar ){
         gbc.gridx = 1;
         datos.add(opciones, gbc);
@@ -113,7 +131,7 @@ public class JPanelRealizarPrestamo {
         datos.add(eliminar, gbc);
     }
 
-
+    // Regresa los materiales disponibles de acuerdo a la base de datos
     public ArrayList<Material> getDBMatDispon(){
         ResultSet res= db.makeSqlCons("SELECT id_material, nombre, cantidad FROM material");
         ResultSet res2;
@@ -139,7 +157,7 @@ public class JPanelRealizarPrestamo {
     }
 
 
-
+    // Busca un material de acuerdo a su nombre en el arrayList de materiales
     public Material buscarMaterial ( ArrayList<Material> materiales, String nombreMaterial ) {
         for ( int x = 0; x < materiales.size(); x++ ) {
             if ( materiales.get(x).getNombre() == nombreMaterial ) {
@@ -149,6 +167,7 @@ public class JPanelRealizarPrestamo {
         return null;
     }
 
+    // Busca al profesor en la base de datos de acuerdo a su número de trabajador
     public Profesor buscarProfesor (int numTrabajProf) {
         Profesor p = null;
         try {
