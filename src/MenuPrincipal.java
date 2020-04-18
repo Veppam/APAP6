@@ -75,7 +75,7 @@ public class MenuPrincipal extends JFrame {
         btnCerrarSesion = new JButton("Cerrar sesión");
         creditos = new JButton("Creditos");
         menu.setOpaque(false);
-        menu.setBorderPainted(false);
+        menu.setBorderPainted(true);
         menu.setLayout(new GridBagLayout());
         menu.add(menuPrestamos, new GridBagConstraints(0,0,1,1,1.0,1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0 ));
         menu.add(menuMateriales, new GridBagConstraints(1,0,1,1,1.0,1,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0 ));
@@ -100,7 +100,9 @@ public class MenuPrincipal extends JFrame {
         principal.add(menu, new GridBagConstraints(0,0,5,1,1.0,0.5,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 400, 40));
         principal.add(contenedor, new GridBagConstraints(0,1,5,10,6.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));
         principal.add(txtEncabezado, new GridBagConstraints(6,1,1,2,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
-        principal.add(new JLabel("Administración de Préstamos de Audovisuales P6"), new GridBagConstraints(6,0,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
+        JLabel sistema = new JLabel("Administración de Préstamos de Audiovisuales P6");
+        sistema.setFont(new Font("TimesRoman", Font.ITALIC, 18));
+        principal.add(sistema, new GridBagConstraints(6,0,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
         principal.add(new JLabel("Bienvenido \n" + usuario.getNomUsuario()), new GridBagConstraints(6,5,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
         principal.add(btnCerrarSesion, new GridBagConstraints(6,7,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 80, 20));
         principal.add(creditos, new GridBagConstraints(6,9,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
@@ -148,7 +150,7 @@ public class MenuPrincipal extends JFrame {
                 contenedor.updateUI();
                 contenedor.repaint();
                 // Agrega el JPanel para agregar materiales en el JPanel contenedor
-                contenedor.add (new AddMateriales(usuario, ""));
+                contenedor.add (new AddMateriales(contenedor,usuario, ""));
             }
         });
 

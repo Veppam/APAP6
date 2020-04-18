@@ -44,5 +44,7 @@ public class LogIn extends JFrame{
                 LogIn niuN = new LogIn("LogIn (usuario y/o contraseña no coinciden)");
             }
         }
+        else
+            dispose();
     }
 }

@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="APAP6">
+    <output-path>$PROJECT_DIR$/out/artifacts/APAP6</output-path>
+    <root id="archive" name="APAP6.jar">
+      <element id="library" level="project" name="mariadb-java-client-2.4.1" />
+      <element id="module-output" name="APAP6" />
+      <element id="dir-copy" path="$PROJECT_DIR$/out" />
+      <element id="dir-copy" path="$PROJECT_DIR$/img" />
+      <element id="dir-copy" path="$PROJECT_DIR$/out/META-INF" />
+    </root>
+  </artifact>
+</component>
