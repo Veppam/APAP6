@@ -2,8 +2,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
@@ -28,6 +26,7 @@ public class ModificarMaterial extends JPanel{
         //Inicializa la clase db para poder  obtener los datos de la Base de Datos
         db = new Database();
 
+        //Establece el tecto titulo del JPanael
         Titulo = new JPanel();
         Titulo.setLayout(new GridBagLayout());
         textoTitulo = new JLabel("Modificar Material");
@@ -35,27 +34,45 @@ public class ModificarMaterial extends JPanel{
         //Vectores usados para obtener los datos que van a ir en la tabla
         Vector temp;
         Vector data = db.getDBMaterials();
+        Vector enUso = db.getMaterialOcc();
         Vector dataUsed = new Vector();
         Vector columnas = new Vector<String>();
 
         //Establece las clases de cada columna de la tabla
-        Class[] tipoColumnas = new Class[]{ String.class, String.class, String.class, JButton.class, JButton.class};
+        Class[] tipoColumnas = new Class[]{ImageIcon.class, String.class, String.class, String.class, String.class, JButton.class, JButton.class};
+
+        //Iconos de los materiales
+        ImageIcon icono;
+        Image tempImg;
 
         //Botones de modificacion eliminacion de material del inventario
-        JButton mod = new JButton("Mod");
-        JButton elim = new JButton("Elim");
+        JButton mod = new JButton("");
+        JButton elim = new JButton("");
+
+        mod.setIcon(reajustarImg(new ImageIcon("img/edit.png"), 75, 55));
+        elim.setIcon(reajustarImg(new ImageIcon("img/trash.jpg"), 75, 55));
+
 
         //Vector que contiene los encabezados de la columna de la tabla
+        columnas.addElement("Imagen");
         columnas.addElement("No. de Serie");
         columnas.addElement("Nombre");
-        columnas.addElement("Cantidad");
+        columnas.addElement("Cantidad Total");
+        columnas.addElement("En Uso");
         columnas.addElement("Modificar");
         columnas.addElement("Eliminar");
 
-        //Agrega los datos necesarios para una consulta de materiales y agrega los botones de ekiminar y editar materiales
+        //Agrega los datos necesarios para una consulta de materiales y agrega los botones de eliminar y editar materiales
         for (int i = 0; i < data.size(); i++){
             temp = (Vector) data.get(i);
-            temp.remove(3);
+
+            //Ajusta la imagen al tamaño de la celda
+            icono = reajustarImg(new ImageIcon((String) temp.elementAt(3)), 75, 65);
+
+            //Acomoda y agrega los elementos a la tabla conforme al orden de las columnas
+            temp.insertElementAt(icono, 0);
+            temp.insertElementAt(enUso.get(i), 4);
+            temp.remove(temp.size() - 1);
             temp.add(mod);
             temp.add(elim);
             dataUsed.addElement(temp);
@@ -63,7 +80,7 @@ public class ModificarMaterial extends JPanel{
 
         //Crea la tabla, le agrega los datos y establece la altura de las filas
         Materiales = new JTable(dataUsed, columnas);
-        Materiales.setRowHeight(35);
+        Materiales.setRowHeight(55);
 
         //Establece el modelo de la tabla
         Materiales.setModel(new DefaultTableModel(dataUsed, columnas){
@@ -107,14 +124,14 @@ public class ModificarMaterial extends JPanel{
                         //Muestra una ventana para preguntar si el usuario esta seguro de eliminar el material
                         int resp = JOptionPane.showConfirmDialog(null,
                                                                  "¿Estas seguro de eliminar el material? \n" +
-                                                                 " No. de Serie: " + Materiales.getModel().getValueAt(row, 0) +
-                                                                 "\nNombre: " + Materiales.getModel().getValueAt(row, 1),
+                                                                 " No. de Serie: " + Materiales.getModel().getValueAt(row, 1) +
+                                                                 "\nNombre: " + Materiales.getModel().getValueAt(row, 2),
                                                                 "¿Estas Seguro?",
                                                                  JOptionPane.YES_NO_OPTION,
                                                                  JOptionPane.WARNING_MESSAGE);
                         //Verifica si el usuario de verdad quiere borrar el material
                         if (resp == JOptionPane.YES_OPTION){
-                            user.eliminarMaterial(Integer.parseInt((String) Materiales.getModel().getValueAt(row, 0)));
+                            user.eliminarMaterial(Integer.parseInt((String) Materiales.getModel().getValueAt(row, 1)));
                             //Actualiza la tabla de materiales que se muestra en pantalla
                             contenedor.removeAll();
                             contenedor.updateUI();
@@ -128,7 +145,7 @@ public class ModificarMaterial extends JPanel{
                         contenedor.removeAll();
                         contenedor.updateUI();
                         contenedor.repaint();
-                        contenedor.add (new AddMateriales(contenedor ,user, (String) Materiales.getModel().getValueAt(row, 0)));
+                        contenedor.add (new AddMateriales(contenedor ,user, (String) Materiales.getModel().getValueAt(row, 1)));
 
                     }
                 };
@@ -141,6 +158,17 @@ public class ModificarMaterial extends JPanel{
         Modificar = new JScrollPane(Materiales);
         add(Titulo, BorderLayout.NORTH);
         add(Modificar, BorderLayout.CENTER);
+
+    }
+
+    //Reajusta el tamaño de la imagen de un ImageIcon, recibe el ImageIcon  a reajustar, el nuevo ancho y la nueva altura
+    private ImageIcon reajustarImg(ImageIcon imagen, int width, int height){
+
+        Image tempImg = imagen.getImage();
+        tempImg = tempImg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        ImageIcon resp = new ImageIcon(tempImg);
+
+        return resp;
 
     }
 
