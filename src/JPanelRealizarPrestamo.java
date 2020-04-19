@@ -40,24 +40,25 @@ public class JPanelRealizarPrestamo {
             if ( m.getCantDispon() > 0 )
                 selectMaterial.addItem( m.getNombre() );
         }
-        // Evento del botón para agregar material
+        // Evento del JComboBox para agregar material
         selectMaterial.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if ( ( (String) selectMaterial.getSelectedItem()) != "-- Seleccione un material --" ){
                     Material c = buscarMaterial(materialesDispon, (String)selectMaterial.getSelectedItem());
-                    System.out.println("TEngo " + c.getCantDispon());
                     c = buscarMaterial(materialesDispon, (String)selectMaterial.getSelectedItem());
+                    // Checo si la cantidad disponible del material seleccionado es mayor a cero
+                    // y si el item fue seleccionado
                     if ( c.getCantDispon() > 0 && e.getStateChange() == ItemEvent.SELECTED ) {
                         JButton btnElim = new JButton("Eliminar");
                         // Evento del botón eliminar de cada material
                         btnElim.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                // Verifico que haya más de un material
+                                // Actualizo la cantidad del material que se va a borrar del JPanel datos, para que sea positiva
                                 String y = ((JLabel)datos.getComponent(datos.getComponentZOrder(btnElim)-4)).getText();
-                                System.out.println("estoy eb "+(datos.getComponentZOrder(btnElim))+" y soy "+  y);
                                 actualizarCantidad( y );
+                                // Quito los componentes que estaban con el material de la interfaz
                                 datos.remove(datos.getComponentZOrder(btnElim)-4);
                                 datos.remove(datos.getComponentZOrder(btnElim)-3);
                                 datos.remove(datos.getComponentZOrder(btnElim)-2);
@@ -72,20 +73,17 @@ public class JPanelRealizarPrestamo {
                                 }
                             }
                         });
+                        // Busco el material en el ArrayList
                         auxMaterial = buscarMaterial(materialesDispon,(String) selectMaterial.getSelectedItem());
+                        // Creo el JSpinner y le digo cuánto es su mínimo y su máximo
                         JSpinner num = new JSpinner();
-
-                        System.out.println((String) selectMaterial.getSelectedItem());
-
                         SpinnerNumberModel modelo = new SpinnerNumberModel(1, 1, auxMaterial.getCantDispon(), 1);
                         num.setModel( modelo );
+                        // Actualizo la cantidad del material seleccionado (la vuelvo negativa)
                         actualizarCantidad((String) selectMaterial.getSelectedItem());
                         // Agrego al JPanel datos el nuevo material
                         agregarMat(new JLabel((String) selectMaterial.getSelectedItem()), num, btnElim);
-
                         // Actualizo la interfaz
-                        //selectMaterial.removeItem( selectMaterial.getSelectedItem() );
-                        selectMaterial.setSelectedItem( selectMaterial.getItemAt(0) );
                         datos.updateUI();
                         datos.repaint();
                     }
@@ -96,7 +94,9 @@ public class JPanelRealizarPrestamo {
         btnAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Aquí estarán los materiales seleccionados
                 ArrayList<Material> materialesSeleccionados = new ArrayList<Material>();
+                // Aquí estará la cantidad de cada uno
                 ArrayList<Integer> cuantosDeCadaUno = new ArrayList<Integer>();
                 // Empiezo en el inicio del arreglo de los componentes del JPanel datos
                 int pos = 0;
@@ -113,13 +113,15 @@ public class JPanelRealizarPrestamo {
                 }
                 // Creo al objetoProfesor
                 Profesor prof = buscarProfesor(Integer.parseInt(txtNumProfesor.getText()));
-                // Si no existe ningún profesor con el número de trabajador ingresado, le informo al usuario
+                // Si no hay materiales, se le informa al usuario
                 if ( materialesSeleccionados.size() == 0 )
                     JOptionPane.showMessageDialog(null, "El préstamo debe contener al menos un material.");
+                // Si no existe ningún profesor con el número de trabajador ingresado, le informo al usuario
                 if ( prof == null )
                     JOptionPane.showMessageDialog(null, "El número de trabajador ingresado " +
                             "no existe. Inténtelo de nuevo.");
-                // Si existe el profesor con el número de trabajador ingresado, se realiza el préstamo y regresa a consultar préstamos
+                // Si existe el profesor con el número de trabajador ingresado y hay por lo menos un material seleccionado,
+                // se realiza el préstamo y regresa a consultar préstamos
                 if ( materialesSeleccionados.size() != 0 && prof != null ) {
                     usuario.realizarPrestamo( prof, materialesSeleccionados, cuantosDeCadaUno );
                     btnCancelar.doClick();
@@ -141,7 +143,7 @@ public class JPanelRealizarPrestamo {
         return  paneel;
     }
 
-    // Agrega un nuevo JComboBox de material a JPanel datos
+    // Agrega un nuevo material, con sus demás componentes gráficos, a JPanel datos
     public void agregarMat( JLabel nomMaterial, JSpinner num, JButton eliminar ){
         gbc.gridx = 1;
         datos.add(nomMaterial, gbc);
@@ -173,7 +175,6 @@ public class JPanelRealizarPrestamo {
                     m.get( m.size() - 1 ).setCantDispon(m.get( m.size() - 1 ).getCantDispon() - cantPrest );
                 else
                     m.remove( m.size() - 1 );
-                System.out.println(res.getInt("cantidad"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -208,6 +209,7 @@ public class JPanelRealizarPrestamo {
         return p;
     }
 
+    // Multiplica por -1 a la cantidad del material que coincida con el nombre pasado
     public void actualizarCantidad ( String nombreMaterial ) {
         for ( int x = 0; x < materialesDispon.size(); x++ )
             if ( materialesDispon.get(x).getNombre() == nombreMaterial )

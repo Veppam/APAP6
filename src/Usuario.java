@@ -24,17 +24,23 @@ public class Usuario {
     public void realizarPrestamo(Profesor solicitante, ArrayList<Material> materialPrestado, ArrayList<Integer> cuantosDeCadaUno ){
         try {
             Statement sent = db.getConnection().createStatement();
+            // Consulta si hay un préstamo vigente del día de hoy
             ResultSet res = db.makeSqlCons("SELECT id_prestamo FROM prestamo WHERE id_profesor = " + solicitante.getNumTrabajador() + " AND fecha = '" + LocalDate.now() + "'");
             int exito = 1, idPrestamo;
+            // Si no hay un préstamo del día de hoy, se hace uno
             if ( !res.next() ){
                 exito = sent.executeUpdate("INSERT INTO prestamo (id_profesor, fecha) VALUES (" + solicitante.getNumTrabajador() + ", '" + LocalDate.now() + "')");
                 res = db.makeSqlCons("SELECT id_prestamo FROM prestamo WHERE id_profesor = " + solicitante.getNumTrabajador() + " AND fecha = '" + LocalDate.now() + "'");
                 res.next();
             }
+            // Si se lleva a cabo correctamente la inserción o si ya había un préstamo vigente
             if ( exito > 0 ) {
                 idPrestamo = res.getInt("id_prestamo");
                 int mat, cant;
+                // Recorre el ArrayList de los material a prestar
                 while ( materialPrestado.size() != 0 ){
+                    // Si hay un prétamo del día de hoy con el material, se le aumenta la cantidad, de lo contrario se creará un registro nuevo del material
+                    // y su cantidad
                     res = db.makeSqlCons("SELECT cantidad FROM material_prestado WHERE id_prestamo = " + idPrestamo
                             + " AND id_material = " + materialPrestado.get(0).getCod() + "");
                     if ( !res.next() ){
@@ -46,6 +52,7 @@ public class Usuario {
                                 + (res.getInt("cantidad") + cuantosDeCadaUno.get(0) ) + " WHERE id_prestamo = "
                                 + idPrestamo + " AND id_material = " + materialPrestado.get(0).getCod());
                     }
+                    // Quito el material y su cantidad para seguir con el siguiente
                     materialPrestado.remove(0);
                     cuantosDeCadaUno.remove(0);
                 }
