@@ -21,7 +21,7 @@ public class Usuario {
         return nomUsuario;
     }
 
-    public void realizarPrestamo(Profesor solicitante, ArrayList<Material> materialPrestado){
+    public void realizarPrestamo(Profesor solicitante, ArrayList<Material> materialPrestado, ArrayList<Integer> cuantosDeCadaUno ){
         try {
             Statement sent = db.getConnection().createStatement();
             ResultSet res = db.makeSqlCons("SELECT id_prestamo FROM prestamo WHERE id_profesor = " + solicitante.getNumTrabajador() + " AND fecha = '" + LocalDate.now() + "'");
@@ -35,25 +35,19 @@ public class Usuario {
                 idPrestamo = res.getInt("id_prestamo");
                 int mat, cant;
                 while ( materialPrestado.size() != 0 ){
-                    mat = materialPrestado.get(0).getCod();
-                    cant = 0;
-                    for ( int y = 0; y < materialPrestado.size(); y++ ){
-                        if ( materialPrestado.get(y).getCod() == mat ){
-                            cant++;
-                            materialPrestado.remove(y--);
-                        }
-                    }
                     res = db.makeSqlCons("SELECT cantidad FROM material_prestado WHERE id_prestamo = " + idPrestamo
-                            + " AND id_material = " + mat + "");
+                            + " AND id_material = " + materialPrestado.get(0).getCod() + "");
                     if ( !res.next() ){
                         sent.executeUpdate("INSERT INTO material_prestado (id_prestamo, id_material, cantidad) VALUES ("
-                                + idPrestamo + ", " + mat + ", " + cant + ")");
+                                + idPrestamo + ", " + materialPrestado.get(0).getCod() + ", " + cuantosDeCadaUno.get(0) + ")");
                     }
                     else{
                         sent.executeUpdate("UPDATE material_prestado SET cantidad = "
-                                + (res.getInt("cantidad") + cant) + " WHERE id_prestamo = " + idPrestamo
-                                + " AND id_material = " + mat);
+                                + (res.getInt("cantidad") + cuantosDeCadaUno.get(0) ) + " WHERE id_prestamo = "
+                                + idPrestamo + " AND id_material = " + materialPrestado.get(0).getCod());
                     }
+                    materialPrestado.remove(0);
+                    cuantosDeCadaUno.remove(0);
                 }
             }
         } catch (SQLException e) {

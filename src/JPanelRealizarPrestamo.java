@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 public class JPanelRealizarPrestamo {
     // Declaración de componentes de la interfaz
     private JLabel Nombre;
-    private JButton btnAgregarMat;
+    private JComboBox<String> selectMaterial;
     private JFormattedTextField txtNumProfesor;
     private JPanel paneel;
     private JPanel datos;
@@ -24,84 +26,102 @@ public class JPanelRealizarPrestamo {
     // Materiales disponibles según la BD
     private ArrayList<Material> materialesDispon;
 
+
+    private Material auxMaterial;
+
     public JPanelRealizarPrestamo(Usuario usuario, JMenuItem cancelar) {
         db = new Database();
         materialesDispon = getDBMatDispon();
+        // Agrego al arrayList materialesDispon los materiales disponibles para prestar
+        selectMaterial.addItem( "-- Seleccione un material --" );
+        Material m;
+        for ( int x = 0; x < materialesDispon.size(); x++ ) {
+            m = materialesDispon.get(x);
+            if ( m.getCantDispon() > 0 )
+                selectMaterial.addItem( m.getNombre() );
+        }
         // Evento del botón para agregar material
-        btnAgregarMat.addActionListener(new ActionListener() {
+        selectMaterial.addItemListener(new ItemListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                // Checo si no hay más de 5 materiales a prestar
-                if ( datos.getComponentCount() < 16 ) {
-                    JComboBox<String> selectMaterial = new JComboBox<String>();
-                    Material m;
-                    // Agrego al arrayList materialesDispon los materiales disponibles para prestar
-                    for ( int x = 0; x < materialesDispon.size(); x++ ) {
-                        m = materialesDispon.get(x);
-                        if ( m.getCantDispon() > 0 )
-                            selectMaterial.addItem( m.getNombre() );
-                    }
-                    JButton btnElim = new JButton("Eliminar");
-                    // Evento del botón eliminar de cada material
-                    btnElim.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            // Verifico que haya más de un material
-                            if ( datos.getComponentCount() > 3  ) {
+            public void itemStateChanged(ItemEvent e) {
+                if ( ( (String) selectMaterial.getSelectedItem()) != "-- Seleccione un material --" ){
+                    Material c = buscarMaterial(materialesDispon, (String)selectMaterial.getSelectedItem());
+                    System.out.println("TEngo " + c.getCantDispon());
+                    c = buscarMaterial(materialesDispon, (String)selectMaterial.getSelectedItem());
+                    if ( c.getCantDispon() > 0 && e.getStateChange() == ItemEvent.SELECTED ) {
+                        JButton btnElim = new JButton("Eliminar");
+                        // Evento del botón eliminar de cada material
+                        btnElim.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                // Verifico que haya más de un material
+                                String y = ((JLabel)datos.getComponent(datos.getComponentZOrder(btnElim)-4)).getText();
+                                System.out.println("estoy eb "+(datos.getComponentZOrder(btnElim))+" y soy "+  y);
+                                actualizarCantidad( y );
+                                datos.remove(datos.getComponentZOrder(btnElim)-4);
+                                datos.remove(datos.getComponentZOrder(btnElim)-3);
                                 datos.remove(datos.getComponentZOrder(btnElim)-2);
                                 datos.remove(datos.getComponentZOrder(btnElim)-1);
                                 datos.remove(datos.getComponentZOrder(btnElim));
                                 datos.updateUI();
                                 datos.repaint();
+                                // Si no hay por lo menos dos materiales, le informo que el préstamo debe contener al menos uno
+                                if ( datos.getComponentCount() < 1  ){
+                                    JOptionPane.showMessageDialog(null, "El préstamo por lo menos debe" +
+                                            " de tener un material.");
+                                }
                             }
-                            // Si no hay por lo menos dos materiales, le informo que el préstamo debe contener al menos uno
-                            else{
-                                JOptionPane.showMessageDialog(null, "El préstamo por lo menos debe" +
-                                        " de tener un material.");
-                            }
-                        }
-                    });
-                    // Agrego al JPanel datos el nuevo material
-                    agregarMat(selectMaterial, btnElim);
+                        });
+                        auxMaterial = buscarMaterial(materialesDispon,(String) selectMaterial.getSelectedItem());
+                        JSpinner num = new JSpinner();
+
+                        System.out.println((String) selectMaterial.getSelectedItem());
+
+                        SpinnerNumberModel modelo = new SpinnerNumberModel(1, 1, auxMaterial.getCantDispon(), 1);
+                        num.setModel( modelo );
+                        actualizarCantidad((String) selectMaterial.getSelectedItem());
+                        // Agrego al JPanel datos el nuevo material
+                        agregarMat(new JLabel((String) selectMaterial.getSelectedItem()), num, btnElim);
+
+                        // Actualizo la interfaz
+                        //selectMaterial.removeItem( selectMaterial.getSelectedItem() );
+                        selectMaterial.setSelectedItem( selectMaterial.getItemAt(0) );
+                        datos.updateUI();
+                        datos.repaint();
+                    }
                 }
-                // Si ya hay 6 materiales, le informo que no se pueden prestar 7 o más materiales en el mismo registro de préstamo
-                else{
-                    JOptionPane.showMessageDialog(null, "Se puede prestar mázimo 6 materiales " +
-                            "a la vez. Si desea prestar más materiales al mismo profesor, favor de registrar este " +
-                            "préstamo, y empezar un registrar un segundo. Ambos registros se unificarán.");
-                }
-                // Actualizo la interfaz
-                datos.updateUI();
-                datos.repaint();
             }
         });
-        // Agregó un material para que empieze el registro con uno
-        btnAgregarMat.doClick();
         // Evento para el botón aceptar el cual hará el préstamo
         btnAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Material> materialesSeleccionados = new ArrayList<Material>();
-                int select = 0;
-                JComboBox<String> selectMaterial;
+                ArrayList<Integer> cuantosDeCadaUno = new ArrayList<Integer>();
+                // Empiezo en el inicio del arreglo de los componentes del JPanel datos
+                int pos = 0;
                 // Recorro los JComboBox del JPanel datos
-                while (select < datos.getComponentCount()) {
-                    selectMaterial = (JComboBox<String>) datos.getComponent( select );
+                while (pos < datos.getComponentCount()) {
                     //Agrego el material seleccionado al arrayList de materialesSeleccionados
-                    materialesSeleccionados.add(buscarMaterial(materialesDispon, (String) selectMaterial.getSelectedItem() ));
-                    // Me salto los tres componentes que no son JComboBox
-                    select += 3;
+                    materialesSeleccionados.add(buscarMaterial(materialesDispon, ( (JLabel) datos.getComponent( pos ) ).getText()));
+                    // Aumento la posición en dos para llegar al JSpinner
+                    pos += 2;
+                    // Agrego el número de ejemplares a prestar del material
+                    cuantosDeCadaUno.add( ( Integer ) ( ( JSpinner ) datos.getComponent( pos ) ).getValue() );
+                    // Aumento la posición en 3 para llegar al siguiente JComboBox
+                    pos += 3;
                 }
                 // Creo al objetoProfesor
                 Profesor prof = buscarProfesor(Integer.parseInt(txtNumProfesor.getText()));
                 // Si no existe ningún profesor con el número de trabajador ingresado, le informo al usuario
-                if ( prof == null ) {
+                if ( materialesSeleccionados.size() == 0 )
+                    JOptionPane.showMessageDialog(null, "El préstamo debe contener al menos un material.");
+                if ( prof == null )
                     JOptionPane.showMessageDialog(null, "El número de trabajador ingresado " +
                             "no existe. Inténtelo de nuevo.");
-                }
                 // Si existe el profesor con el número de trabajador ingresado, se realiza el préstamo y regresa a consultar préstamos
-                else{
-                    usuario.realizarPrestamo( prof, materialesSeleccionados);
+                if ( materialesSeleccionados.size() != 0 && prof != null ) {
+                    usuario.realizarPrestamo( prof, materialesSeleccionados, cuantosDeCadaUno );
                     btnCancelar.doClick();
                 }
             }
@@ -122,12 +142,16 @@ public class JPanelRealizarPrestamo {
     }
 
     // Agrega un nuevo JComboBox de material a JPanel datos
-    public void agregarMat( JComboBox<String> opciones, JButton eliminar ){
+    public void agregarMat( JLabel nomMaterial, JSpinner num, JButton eliminar ){
         gbc.gridx = 1;
-        datos.add(opciones, gbc);
+        datos.add(nomMaterial, gbc);
         gbc.gridx = 2;
         datos.add(new JLabel("           "), gbc);
         gbc.gridx = 3;
+        datos.add(num, gbc);
+        gbc.gridx = 4;
+        datos.add(new JLabel("           "), gbc);
+        gbc.gridx = 5;
         datos.add(eliminar, gbc);
     }
 
@@ -149,6 +173,7 @@ public class JPanelRealizarPrestamo {
                     m.get( m.size() - 1 ).setCantDispon(m.get( m.size() - 1 ).getCantDispon() - cantPrest );
                 else
                     m.remove( m.size() - 1 );
+                System.out.println(res.getInt("cantidad"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -181,5 +206,11 @@ public class JPanelRealizarPrestamo {
             e.printStackTrace();
         }
         return p;
+    }
+
+    public void actualizarCantidad ( String nombreMaterial ) {
+        for ( int x = 0; x < materialesDispon.size(); x++ )
+            if ( materialesDispon.get(x).getNombre() == nombreMaterial )
+                materialesDispon.get(x).setCantDispon(materialesDispon.get(x).getCantDispon()*-1);
     }
 }
