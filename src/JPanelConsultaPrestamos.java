@@ -81,15 +81,8 @@ public class JPanelConsultaPrestamos extends JPanel {
                             ResultSet res2 = base.makeSqlCons(cons2);
                             if(res2.next()){
                                 for (String s : ids_mat) { //Actualizacion de la cantidad de materiales al ser devueltos
-                                    /*String cant = "SELECT cantidad FROM material WHERE id_material=" + Integer.parseInt(s);
-                                    ResultSet cant1 = base.makeSqlCons(cant);
-                                    if(cant1.next()){
-                                        String upd1 = "UPDATE material SET cantidad=(SELECT cantidad FROM material_prestado WHERE id_prestamo=" +
-                                                res2.getInt("id_prestamo") + " AND id_material=" + Integer.parseInt(s) + ")+" + cant1.getInt("cantidad") + " WHERE id_material=" + Integer.parseInt(s);
-                                        base.exeSql(upd1);*/
-                                        String del2 = "DELETE FROM material_prestado WHERE id_prestamo=" + res2.getInt("id_prestamo") + " AND id_material=" + Integer.parseInt(s);
-                                        base.exeSql(del2); //Se elimina el registro de los materiales prestados en el prestamo
-                                    //}
+                                    String del2 = "DELETE FROM material_prestado WHERE id_prestamo=" + res2.getInt("id_prestamo") + " AND id_material=" + Integer.parseInt(s);
+                                    base.exeSql(del2); //Se elimina el registro de los materiales prestados en el prestamo
                                 }
                                 String del1 = "DELETE FROM prestamo WHERE id_prestamo="+res2.getInt("id_prestamo"); //Eliminación total del prestamo
                                 base.exeSql(del1);
@@ -128,6 +121,7 @@ public class JPanelConsultaPrestamos extends JPanel {
         tabla.setColumnSelectionAllowed(false);
         tabla.getTableHeader().setReorderingAllowed(false);
         consultarPrestamos();
+        setBackground(new Color(70, 191,200));
     }
     public void consultarPrestamos(){
         ArrayList<Profesor> profesores = new ArrayList<Profesor>();
