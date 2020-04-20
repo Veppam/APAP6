@@ -29,7 +29,7 @@ public class ModificarMaterial extends JPanel{
         //Establece el tecto titulo del JPanael
         Titulo = new JPanel();
         Titulo.setLayout(new GridBagLayout());
-        textoTitulo = new JLabel("Modificar Material");
+        textoTitulo = new JLabel("Consultar Inventario");
         textoTitulo.setFont(new Font("Arial", Font.PLAIN, 24));
 
         //Vectores usados para obtener los datos que van a ir en la tabla
