@@ -81,7 +81,7 @@ public class ListaMateriales extends JPanel {
                 GridBagConstraints.BOTH,
                 inset, 0, 0
         ));
-      
+        setBackground(new Color(70, 191,200));
     }
   
 }
