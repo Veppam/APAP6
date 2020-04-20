@@ -2,8 +2,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
@@ -68,8 +66,8 @@ public class JPanelConsultaPrestamos extends JPanel {
                     String campo2 = (String) tabla.getModel().getValueAt(fila, 1);
                     String[] materiales = campo2.split("\n");
                     ArrayList<String> ids_mat = new ArrayList<String>();
-                    for (int x=0; x < materiales.length; x++)
-                        ids_mat.add(materiales[x].substring(0,3)); //Obtencion de los id de los materiales cortando los materiales por saltos de linea y solo tomando los no. de serie
+                    for (String materiale : materiales)
+                        ids_mat.add(materiale.substring(0, 3)); //Obtencion de los id de los materiales cortando los materiales por saltos de linea y solo tomando los no. de serie
                     String cons1 = "";
                     if(nombreProf.length < 4) //obtencion del id del profesor con el nombre validando si tiene 2 nombres
                         cons1 = "SELECT id_profesor from profesor WHERE nombre='"+nombreProf[0]+"' AND ap_paterno='"+nombreProf[1]+"' AND ap_materno='"+nombreProf[2]+"'";
@@ -82,12 +80,16 @@ public class JPanelConsultaPrestamos extends JPanel {
                             String cons2 = "SELECT id_prestamo FROM prestamo where id_profesor="+res1.getInt("id_profesor");
                             ResultSet res2 = base.makeSqlCons(cons2);
                             if(res2.next()){
-                                for (int n=0; n<ids_mat.size(); n++){ //Actualizacion de la cantidad de materiales al ser devueltos
-                                    String upd1 = "UPDATE cantidad FROM material SET cantidad+=(SELECT cantidad FROM material_prestado WHERE id_prestamo="+
-                                            res2.getInt("id_prestamo")+" AND id_material="+Integer.parseInt(ids_mat.get(n))+") WHERE id_material="+Integer.parseInt(ids_mat.get(n));
-                                    base.exeSql(upd1);
-                                    String del2 = "DELETE FROM material_prestado WHERE id_prestamo="+res2.getInt("id_prestamo")+" AND id_material="+Integer.parseInt(ids_mat.get(n));
-                                    base.exeSql(del2); //Se elimina el registro de los materiales prestados en el prestamo
+                                for (String s : ids_mat) { //Actualizacion de la cantidad de materiales al ser devueltos
+                                    /*String cant = "SELECT cantidad FROM material WHERE id_material=" + Integer.parseInt(s);
+                                    ResultSet cant1 = base.makeSqlCons(cant);
+                                    if(cant1.next()){
+                                        String upd1 = "UPDATE material SET cantidad=(SELECT cantidad FROM material_prestado WHERE id_prestamo=" +
+                                                res2.getInt("id_prestamo") + " AND id_material=" + Integer.parseInt(s) + ")+" + cant1.getInt("cantidad") + " WHERE id_material=" + Integer.parseInt(s);
+                                        base.exeSql(upd1);*/
+                                        String del2 = "DELETE FROM material_prestado WHERE id_prestamo=" + res2.getInt("id_prestamo") + " AND id_material=" + Integer.parseInt(s);
+                                        base.exeSql(del2); //Se elimina el registro de los materiales prestados en el prestamo
+                                    //}
                                 }
                                 String del1 = "DELETE FROM prestamo WHERE id_prestamo="+res2.getInt("id_prestamo"); //Eliminación total del prestamo
                                 base.exeSql(del1);
@@ -103,9 +105,17 @@ public class JPanelConsultaPrestamos extends JPanel {
         tabla.getColumn("Material").setCellRenderer(new TextAreaRenderer());
         tabla.getColumn("Profesor").setCellRenderer(new TextAreaRenderer());
         tabla.getColumn("Profesor").setPreferredWidth(160);
+        tabla.getColumn("Profesor").setMinWidth(160);
+        tabla.getColumn("Profesor").setMaxWidth(160);
         tabla.getColumn("Fecha").setPreferredWidth(80);
+        tabla.getColumn("Fecha").setMinWidth(80);
+        tabla.getColumn("Fecha").setMaxWidth(80);
         tabla.getColumn("Material").setPreferredWidth(354);
+        tabla.getColumn("Material").setMinWidth(354);
+        tabla.getColumn("Material").setMaxWidth(354);
         tabla.getColumn("Estado").setPreferredWidth(150);
+        tabla.getColumn("Estado").setMinWidth(150);
+        tabla.getColumn("Estado").setMaxWidth(150);
         tabla.setAutoResizeMode(0);
         tabla.setRowHeight(120);
         panel.add(tabla);
@@ -148,9 +158,6 @@ public class JPanelConsultaPrestamos extends JPanel {
                             materiales += results4.getInt("id_material")+" "+results4.getNString("nombre")+" ["+results3.getNString("cantidad")+" unidades]"+"\n";
                         }
                     }
-                    //JScrollPane mats = new JScrollPane();
-                    //JLabel m2 = new JLabel(materiales);
-                    //mats.add(m2);
                     datos_fila.add(materiales);
                     datos_fila.add(results.getDate("fecha"));
                     JButton estado = new JButton("Finalizar prestamo");
