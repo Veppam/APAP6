@@ -145,8 +145,9 @@ public class ModificarMaterial extends JPanel{
                         contenedor.removeAll();
                         contenedor.updateUI();
                         contenedor.repaint();
-                        contenedor.add (new AddMateriales(contenedor ,user, (String) Materiales.getModel().getValueAt(row, 1)));
-
+                        contenedor.setLayout(new BorderLayout());
+                        AddMateriales adM = new AddMateriales(contenedor ,user, (String) Materiales.getModel().getValueAt(row, 1));
+                        contenedor.add( adM.getPanela(), BorderLayout.CENTER );
                     }
                 };
             }
