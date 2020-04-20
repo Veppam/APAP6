@@ -121,7 +121,7 @@ public class AddMateriales extends JPanel{
                         contenedor.add(new ModificarMaterial(contenedor, user), BorderLayout.CENTER);
                     }
                 }else{
-                    JOptionPane.showConfirmDialog(null, "Tus datos están incorrectos (N° Serie son puros números)",
+                    JOptionPane.showConfirmDialog(null, "Tus datos están incorrectos (N° Serie = número de 3 dígitos)",
                             "ERROR", JOptionPane.OK_CANCEL_OPTION);
                 }
             }
