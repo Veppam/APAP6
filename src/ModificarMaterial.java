@@ -165,8 +165,6 @@ public class ModificarMaterial extends JPanel{
         Modificar = new JScrollPane(Materiales);
         add(Titulo, BorderLayout.NORTH);
         add(Modificar, BorderLayout.CENTER);
-        setBackground(new Color(70, 191,200));
-
     }
 
     //Reajusta el tamaño de la imagen de un ImageIcon, recibe el ImageIcon  a reajustar, el nuevo ancho y la nueva altura
