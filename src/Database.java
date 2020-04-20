@@ -4,11 +4,11 @@ import java.util.Vector;
 public class Database {
     private String URL= "jdbc:" +
                         "mariadb://" +
-                        "localhost:" + //Dirección IP
+                        "132.248.96.65:" + //Dirección IP
                         "3306/" + //Puerto
-                        "apap6"; //Nombre base de datos
-    private String USER="root";
-    private String PASSWORD="";
+                        "mod8_1_apa"; //Nombre base de datos
+    private String USER="ete62a";
+    private String PASSWORD="etemysql";
 
     private Connection con;
     private Statement sent;
@@ -22,7 +22,7 @@ public class Database {
         }
     }
 
-    private ResultSet makeSqlCons(String sql){
+    public ResultSet makeSqlCons(String sql){ //Metodo para realizar consultas
         ResultSet respuesta = null;
         try {
             respuesta = sent.executeQuery(sql);
@@ -31,7 +31,14 @@ public class Database {
         }
         return respuesta;
     }
-    public String[][] getDBUsers(){
+    public void exeSql(String sql){ //Metodo para ejecutar inserciones, actualizaciones o borrados
+        try {
+            sent.executeUpdate(sql);
+        } catch (SQLException ex) {
+            System.out.println("Error en ejecución SQL");
+        }
+    }
+    public String[][] getDBUsers(){ //Obtiene los usarios de la base
         String[] user1 = new String[2];
         String[] user2 = new String[2];
 
@@ -53,7 +60,7 @@ public class Database {
         return new String[][]{user1, user2};
     }
 
-    public Vector getDBMaterials(){
+    public Vector getDBMaterials(){ //Obtiene toda la info de los materiales
         Vector materials= new Vector();
         String sql= "SELECT * FROM material";
         ResultSet res= makeSqlCons(sql);
@@ -76,7 +83,7 @@ public class Database {
         return materials;
     }
 
-    public boolean matchTrabNum(String TN){
+    public boolean matchTrabNum(String TN){ //Valida si el no ingresado pertenece al id de un profesor
         boolean exist= false;
         String sql= "SELECT nombre FROM profesor WHERE id_profesor="+TN;
         ResultSet res= makeSqlCons(sql);
@@ -89,7 +96,7 @@ public class Database {
         return exist;
     }
 
-    public String[] getDBprofessorData(String NT){
+    public String[] getDBprofessorData(String NT){ //DEc¿vuelve toda la informacion de un profesor
         String[] nombre= new String[3];
 
         String sql= "SELECT ap_paterno, ap_materno, nombre FROM profesor WHERE id_profesor= "+NT;
@@ -105,4 +112,92 @@ public class Database {
         }
         return nombre;
     }
+
+    public boolean valUsuario(String nom, String contra){ //Valida al usuario
+        String[] usuario1 = getDBUsers()[0];
+        String[] usuario2 = getDBUsers()[1];
+
+        if (nom.equals(usuario1[0]) && contra.equals(usuario1[1]))
+            return true;
+        if (nom.equals(usuario2[0]) && contra.equals(usuario2[1]))
+            return  true;
+        return false;
+    }
+    public Vector getMaterialOcc(){ //Devuelve los materiales ocupados
+        String subSql= "SELECT id_material FROM material";
+        ResultSet res= makeSqlCons(subSql);
+        Vector <Integer> ocupados= new Vector<Integer>();
+        Vector <String> mats= new Vector();
+        boolean fin=false;
+        try {
+            while (!fin) {
+                if(res.next()) {
+                    mats.add(res.getNString("id_material"));
+                }else{
+                    fin=true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for(String id:mats) {
+            String sql = "SELECT cantidad FROM material_prestado WHERE id_material=" + id;
+            ResultSet result= makeSqlCons(sql);
+            //Vector <String> numsOcup= new Vector <String>();
+            //Sumar los resultados de cada préstamo
+            int num=0;
+            boolean end= false;
+            while (!end){
+                try {
+                    if(result.next()){
+                        num+=result.getInt("cantidad");
+                    }else{
+                        end=true;
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            ocupados.add(num);
+        }
+        return ocupados;
+    }
+
+    public Vector getDBCantidadMat(){ //Devuelve el total de materiales disponibles
+        Vector<Integer> total= new Vector<Integer>();
+        String sql= "SELECT cantidad FROM material ";
+        ResultSet res= makeSqlCons(sql);
+        boolean end=false;
+        while (!end){
+            try {
+                if(res.next()){
+                    total.add(res.getInt("cantidad"));
+                }else{
+                    end=true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return total;
+    }
+
+    //Modifica un material en la base de datos conforme al material recibido como parametro
+    public void modificarMaterial(Material materialModificado){
+        try {
+            Statement modificacion = con.createStatement();
+            modificacion.executeUpdate("UPDATE material SET nombre = " + materialModificado.getNombre() +
+                                        ", cantidad = " + materialModificado.getCantDispon() +
+                                        " WHERE id_material = " + materialModificado.getCod() + ";");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Connection getConnection () {
+        return con;
+    }
+
 }

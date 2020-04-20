@@ -1,32 +1,44 @@
+import javax.swing.*;
+
 public class Material {
 
-    private int noSerie;
-    private int cantidad;
+    // Atributos de la clase Material
+    private int cod;
+    private int cantDispon = 0;
     private String nombre;
-    private String imagen;
-    private String descripcion;
+    private ImageIcon imagen;
 
-    public Material(int noSerie, int cantidad, String nombre, String descripcion, String imagen) {
-
-        this.noSerie = noSerie;
-        this.cantidad = cantidad;
+    // Constructor de la clase Material que recibe nombre, código y cantidad disponible del material
+    public Material ( String nombre, int cod, int cantDispon ) {
         this.nombre = nombre;
-        this.descripcion = descripcion;
+        this.cod = cod;
+        this.cantDispon = cantDispon;
+    }
+    // Constructor de la clase Material que recibe nombre, código, cantidad disponible del material y el icono del material
+    public Material ( String nombre, int cod, int cantDispon, ImageIcon imagen) {
+        this.nombre = nombre;
+        this.cod = cod;
+        this.cantDispon = cantDispon;
         this.imagen = imagen;
-
     }
 
-    public Material(int noSerie, int cantidad, String nombre, String descripcion) {
-
-        this.noSerie = noSerie;
-        this.cantidad = cantidad;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-
+    // Regresa la cantidad disponible del material
+    public int getCantDispon() {
+        return cantDispon;
     }
 
-    public boolean verDisponibilidad(){
-        return true;
+    // Regresa el código del material
+    public int getCod() {
+        return cod;
     }
 
+    // Regresa el nombre del material
+    public String getNombre() {
+        return nombre;
+    }
+
+    // Establece un nueva cantidad disponible del material
+    public void setCantDispon(int cantDispon) {
+        this.cantDispon = cantDispon;
+    }
 }

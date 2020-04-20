@@ -45,7 +45,7 @@ CREATE TABLE `material` (
 
 LOCK TABLES `material` WRITE;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
-INSERT INTO `material` VALUES (0,'Proyectores',5,'./imgs/proy.png'),(102,'Cables VGA',10,'./imgs/cVGA.png'),(124,'Adaptadores de audio 3.5mm a dos canales',15,'./imgs/adaptAudio35'),(342,'Bocinas',4,'./imgs/bocinas.png'),(548,'Control remoto de proyector',5,'./imgs/controlProy.png'),(629,'Cables de audio 3.5mm',15,'./imgs/cAudio35'),(731,'Cables HDMI',5,'./imgs/cHDMI'),(749,'Laptops',7,'./imgs/laptop.png');
+INSERT INTO `material` VALUES (100,'Proyectores',5,'./imgs/proy.png'),(102,'Cables VGA',10,'./imgs/cVGA.png'),(124,'Adaptadores de audio 3.5mm a dos canales',15,'./imgs/adaptAudio35'),(342,'Bocinas',4,'./imgs/bocinas.png'),(548,'Control remoto de proyector',5,'./imgs/controlProy.png'),(629,'Cables de audio 3.5mm',15,'./imgs/cAudio35'),(731,'Cables HDMI',5,'./imgs/cHDMI'),(749,'Laptops',7,'./imgs/laptop.png');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,8 +62,8 @@ CREATE TABLE `material_prestado` (
   `cantidad` int(3) NOT NULL,
   KEY `id_material` (`id_material`),
   KEY `id_prestamo` (`id_prestamo`),
-  CONSTRAINT `material_prestado_ibfk_1` FOREIGN KEY (`id_material`) REFERENCES `material` (`id_material`),
-  CONSTRAINT `material_prestado_ibfk_2` FOREIGN KEY (`id_prestamo`) REFERENCES `prestamo` (`id_prestamo`)
+  CONSTRAINT `material_prestado_ibfk_1` FOREIGN KEY (`id_material`) REFERENCES `material` (`id_material`) ON DELETE CASCADE,
+  CONSTRAINT `material_prestado_ibfk_2` FOREIGN KEY (`id_prestamo`) REFERENCES `prestamo` (`id_prestamo`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -149,7 +149,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Elmer','Homero'),(2,'Susana','Distancia');
+INSERT INTO `usuario` VALUES (1,'JuanCB01','jccb130202'),(2,'Susana','Distancia');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
