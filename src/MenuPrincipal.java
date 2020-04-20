@@ -62,7 +62,9 @@ public class MenuPrincipal extends JFrame {
         contenedor.setBackground(new Color(70, 191,200));
         menu = new JMenuBar();
         menuPrestamos = new JMenu("Préstamos",true);
+        menuPrestamos.setMnemonic('P');
         menuMateriales = new JMenu("Inventario", true);
+        menuMateriales.setMnemonic('I');
         itemConsultMat = new JMenuItem("Consultar",'C');
         itemAgregarMat = new JMenuItem("Agregar Material",'A');
         itemConsultPrest = new JMenuItem("Consultar Préstamos",'C');
