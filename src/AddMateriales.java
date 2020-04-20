@@ -21,6 +21,7 @@ public class AddMateriales extends JPanel{
     private JButton send;
     private JButton siChus;
     private JPanel panela;
+    private JLabel t;
     private JFileChooser chusma;
 
     private Usuario userr;
@@ -43,6 +44,7 @@ public class AddMateriales extends JPanel{
 
         //Si se proporciono un numero de serie este no sera solicitado nuevamente
         if (datos != null) {
+            t.setText("Modificar material");
             mat.setText(datos.getNombre());
             cant.setValue(datos.getCantDispon());
             id.setText(String.valueOf(datos.getCod()));
