@@ -94,7 +94,7 @@ public class ModificarMaterial extends JPanel{
             //Permite que los botones en cada celda sean funcionales haciendolos editables
             @Override
             public boolean isCellEditable(int row, int column) {
-                return !(this.getColumnClass(column).equals(JButton.class));
+                return false;//!(this.getColumnClass(column).equals(JButton.class));
             }
 
         });
@@ -142,12 +142,16 @@ public class ModificarMaterial extends JPanel{
                         }
                     // Si es el otro boton, reemplaza el panel con el de agregar material, pero sin pedir el numero de serie
                     }else {
+
+
+
                         contenedor.removeAll();
                         contenedor.updateUI();
                         contenedor.repaint();
-                        contenedor.setLayout(new BorderLayout());
-                        AddMateriales adM = new AddMateriales(contenedor ,user, (String) Materiales.getModel().getValueAt(row, 1));
-                        contenedor.add( adM.getPanela(), BorderLayout.CENTER );
+                        contenedor.add (new AddMateriales(contenedor ,user, new Material((String) Materiales.getModel().getValueAt(row, 2),
+                                                                                         Integer.parseInt((String) Materiales.getModel().getValueAt(row, 1)),
+                                                                                         Integer.parseInt((String) Materiales.getModel().getValueAt(row, 3)),
+                                                                                         (ImageIcon) Materiales.getModel().getValueAt(row, 0))));
                     }
                 };
             }
