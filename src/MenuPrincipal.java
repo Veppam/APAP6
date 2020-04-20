@@ -46,7 +46,7 @@ public class MenuPrincipal extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new GridLayout(1,1));
         principal = new JPanel();
-        principal.setBackground(Color.LIGHT_GRAY);
+        principal.setBackground(new Color(100, 250,200));
         principal.setLayout(new GridBagLayout());
         opciones = new JPanel();
         opciones.setLayout( new GridLayout(6,1) );
@@ -64,10 +64,10 @@ public class MenuPrincipal extends JFrame {
         menu = new JMenuBar();
         menuPrestamos = new JMenu("Préstamos",true);
         menuMateriales = new JMenu("Inventario", true);
-        itemConsultMat = new JMenuItem("Consultar",'B');
-        itemAgregarMat = new JMenuItem("Agregar Material",'F');
-        itemConsultPrest = new JMenuItem("Consultar Préstamos",'H');
-        itemHacerPrest = new JMenuItem("Registrar Préstamo",'K');
+        itemConsultMat = new JMenuItem("Consultar",'C');
+        itemAgregarMat = new JMenuItem("Agregar Material",'A');
+        itemConsultPrest = new JMenuItem("Consultar Préstamos",'C');
+        itemHacerPrest = new JMenuItem("Registrar Préstamo",'R');
         menuPrestamos.add( itemHacerPrest );
         menuPrestamos.add( itemConsultPrest );
         menuMateriales.add( itemAgregarMat );
@@ -101,7 +101,8 @@ public class MenuPrincipal extends JFrame {
         principal.add(contenedor, new GridBagConstraints(0,1,5,10,6.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));
         principal.add(txtEncabezado, new GridBagConstraints(6,1,1,2,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
         JLabel sistema = new JLabel("Administración de Préstamos de Audiovisuales P6");
-        sistema.setFont(new Font("TimesRoman", Font.ITALIC, 18));
+        sistema.setFont(new Font("Arial", Font.ITALIC, 18));
+        sistema.setForeground(Color.BLUE);
         principal.add(sistema, new GridBagConstraints(6,0,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
         principal.add(new JLabel("Bienvenido \n" + usuario.getNomUsuario()), new GridBagConstraints(6,5,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
         principal.add(btnCerrarSesion, new GridBagConstraints(6,7,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 80, 20));

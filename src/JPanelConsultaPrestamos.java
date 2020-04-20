@@ -36,7 +36,7 @@ public class JPanelConsultaPrestamos extends JPanel {
         };
         JLabel title = new JLabel("Consulta de Préstamos");
         title.setHorizontalAlignment(JLabel.CENTER);
-        title.setFont(new Font("TimesRoman", Font.PLAIN, 24));
+        title.setFont(new Font("Arial", Font.PLAIN, 24));
         tabla = new JTable();
         tabla.setModel(new DefaultTableModel(vectorCols, 0) { //Creacion del modelo de la tabla, se sobrescriben metodos
             Class[] tipos = tiposColumnas;
@@ -100,14 +100,23 @@ public class JPanelConsultaPrestamos extends JPanel {
                 }
             }
         });
-        tabla.setEnabled(false);
         tabla.getColumn("Material").setCellRenderer(new TextAreaRenderer());
         tabla.getColumn("Profesor").setCellRenderer(new TextAreaRenderer());
+        tabla.getColumn("Profesor").setPreferredWidth(160);
+        tabla.getColumn("Fecha").setPreferredWidth(80);
+        tabla.getColumn("Material").setPreferredWidth(354);
+        tabla.getColumn("Estado").setPreferredWidth(150);
+        tabla.setAutoResizeMode(0);
         tabla.setRowHeight(120);
         panel.add(tabla);
         panel.setViewportView(tabla);
         add(title, BorderLayout.NORTH);
         add(panel, BorderLayout.CENTER);
+        tabla.setEnabled(false);
+        tabla.setUpdateSelectionOnSort(false);
+        tabla.setDragEnabled(false);
+        tabla.setColumnSelectionAllowed(false);
+        tabla.getTableHeader().setReorderingAllowed(false);
         consultarPrestamos();
     }
     public void consultarPrestamos(){
@@ -129,19 +138,24 @@ public class JPanelConsultaPrestamos extends JPanel {
                             " "+ results2.getNString("ap_materno");
                     Vector datos_fila = new Vector();
                     datos_fila.add(nombre);
-                    String consulta3 = "SELECT id_material FROM material_prestado WHERE id_prestamo = "+results.getInt("id_prestamo");
+                    String consulta3 = "SELECT id_material, cantidad FROM material_prestado WHERE id_prestamo = "+results.getInt("id_prestamo");
                     ResultSet results3 = base.makeSqlCons(consulta3); //obtencion de los materiales prestados
                     String materiales = "";
                     while (results3.next()){
                         String consulta4 = "SELECT id_material, nombre FROM material WHERE id_material = "+results3.getInt("id_material");
                         ResultSet results4 = base.makeSqlCons(consulta4); //Obtencion de la información de los materiales
                         if (results4.next()) {
-                            materiales += results4.getInt("id_material")+" "+results4.getNString("nombre")+"\n";
+                            materiales += results4.getInt("id_material")+" "+results4.getNString("nombre")+" ["+results3.getNString("cantidad")+" unidades]"+"\n";
                         }
                     }
+                    //JScrollPane mats = new JScrollPane();
+                    //JLabel m2 = new JLabel(materiales);
+                    //mats.add(m2);
                     datos_fila.add(materiales);
                     datos_fila.add(results.getDate("fecha"));
                     JButton estado = new JButton("Finalizar prestamo");
+                    estado.setBackground(Color.RED);
+                    estado.setForeground(Color.WHITE);
                     datos_fila.add(estado);
                     modelo.insertRow(modelo.getRowCount(), datos_fila);
                 }
