@@ -33,83 +33,23 @@ public class AddMateriales extends JPanel{
       
         //Database db = new Database();
         userr = user;
-        matL = new JLabel("Nombre:");
-        mat = new JTextField(20);
-        cantL = new JLabel("Cantidad:");
-        cant = new JSpinner();
-        id = new JTextField(20);
-        idL = new JLabel("N° serie:");
-        send = new JButton("Enviar");
-        //menu = new JButton("Regresar");
-        panela = new JPanel(new GridBagLayout());
-        chusL = new JLabel ("Seleccionar imagen (opcional):");
-        siChus = new JButton("Agregar");
         chusma = new JFileChooser();
         //Filtro para imagenes JFileChooser
         FileNameExtensionFilter soloImgs = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
         chusma.addChoosableFileFilter(soloImgs);
         chusma.setAcceptAllFileFilterUsed(false);
-        //
-        cant.setPreferredSize(new Dimension(100, 25));
         cant.setValue(1);
-        setLayout(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
         //-------FORM DATOS
 
         //Si se proporciono un numero de serie este no sera solicitado nuevamente
-        if (datos == null) {
-            c.gridx = 0;
-            c.gridy = 0;
-            panela.add(idL, c);
-
-            c.gridx = 1;
-            c.gridy = 0;
-            panela.add(id, c);
-        }else{
-
+        if (datos != null) {
             mat.setText(datos.getNombre());
             cant.setValue(datos.getCantDispon());
-
+            id.setText(String.valueOf(datos.getCod()));
+            id.setEnabled(false);
         }
-      
-        c.gridx = 0;
-        c.gridy = 1;
-        panela.add(matL, c);
 
-        c.gridx = 1;
-        c.gridy = 1;
-        panela.add (mat, c);
-
-        c.gridx = 0;
-        c.gridy = 2;
-        panela.add(cantL, c);
-
-        c.gridx = 1;
-        c.gridy = 2;
-        panela.add(cant, c);
-
-        //-----AGREGAR FORM y BUTTONS
-        c.gridy = 1;
-        c.gridx = 2;
-        c.weighty = 0.1;
-        add(panela, c);
-
-        c.gridx = 1;
-        c.gridy = 3;
-        add(chusL, c);
-
-        c.gridx = 2;
-        c.gridy = 3;
-        add(siChus, c);
-
-        c.gridx = 3;
-        c.gridy = 4;
-        c.weighty = 0.1;
-        c.anchor = GridBagConstraints.PAGE_END;
-        add(send, c);
-
-        setSize(600, 400);
-        ImageIcon img = new ImageIcon("./img/icono.png");
+        add (panela);
         setVisible(true);
 
         //Guarda variable para copiar archivo
@@ -184,5 +124,9 @@ public class AddMateriales extends JPanel{
                 }
             }
         });
+    }
+
+    public JPanel getPanela(){
+        return panela;
     }
 }

@@ -68,9 +68,9 @@ public class Usuario {
             int in = inset.executeUpdate("INSERT INTO material VALUES ("
                     + No_Serie + ", \""+nombre+"\", " + Cantidad + ", \""+newFile+"\")");
             JOptionPane.showConfirmDialog(null, "Adición Exitosa",
-                    "ERROR", JOptionPane.OK_CANCEL_OPTION);
+                    "EXITO", JOptionPane.OK_CANCEL_OPTION);
         }catch (SQLException e){
-            JOptionPane.showConfirmDialog(null, "Error en la adición",
+        JOptionPane.showConfirmDialog(null, "Error en la adición (N°: "+No_Serie+" ya existe)",
                     "ERROR", JOptionPane.OK_CANCEL_OPTION);
         }
     }

@@ -149,10 +149,11 @@ public class ModificarMaterial extends JPanel{
                         contenedor.removeAll();
                         contenedor.updateUI();
                         contenedor.repaint();
-                        contenedor.add (new AddMateriales(contenedor ,user, new Material((String) Materiales.getModel().getValueAt(row, 2),
-                                                                                         Integer.parseInt((String) Materiales.getModel().getValueAt(row, 1)),
-                                                                                         Integer.parseInt((String) Materiales.getModel().getValueAt(row, 3)),
-                                                                                         (ImageIcon) Materiales.getModel().getValueAt(row, 0))));
+                        AddMateriales adM = new AddMateriales(contenedor ,user, new Material((String) Materiales.getModel().getValueAt(row, 2),
+                                Integer.parseInt((String) Materiales.getModel().getValueAt(row, 1)),
+                                Integer.parseInt((String) Materiales.getModel().getValueAt(row, 3)),
+                                (ImageIcon) Materiales.getModel().getValueAt(row, 0)));
+                        contenedor.add (adM.getPanela());
                     }
                 };
             }
