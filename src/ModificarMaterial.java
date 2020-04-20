@@ -162,10 +162,10 @@ public class ModificarMaterial extends JPanel{
 
         //Añade los elementos a ModificarMateriales
         Titulo.add(textoTitulo);
-        Materiales.getTableHeader().setReorderingAllowed(false);
+        Materiales.getTableHeader().setReorderingAllowed(false); //No permite que el usuario mueva columnas
         Materiales.getColumn("Nombre").setCellRenderer(new TextAreaRenderer());
         Materiales.setAutoResizeMode(0);
-        Materiales.getColumn("Imagen").setPreferredWidth(90);
+        Materiales.getColumn("Imagen").setPreferredWidth(90); //Definicion dimensiones de las columnas
         Materiales.getColumn("Imagen").setMinWidth(90);
         Materiales.getColumn("Imagen").setMaxWidth(90);
         Materiales.getColumn("No. de Serie").setPreferredWidth(85);
@@ -186,7 +186,7 @@ public class ModificarMaterial extends JPanel{
         Materiales.getColumn("Eliminar").setPreferredWidth(85);
         Materiales.getColumn("Eliminar").setMinWidth(85);
         Materiales.getColumn("Eliminar").setMaxWidth(85);
-        Materiales.setEnabled(false);
+        Materiales.setEnabled(false); //No permite que el usuario resalte o subraye filas y columnas
         Modificar = new JScrollPane(Materiales);
         add(Titulo, BorderLayout.NORTH);
         add(Modificar, BorderLayout.CENTER);

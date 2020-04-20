@@ -107,9 +107,10 @@ public class MenuPrincipal extends JFrame {
         JLabel sistema = new JLabel("Administración de Préstamos de Audiovisuales P6");
         sistema.setFont(new Font("Arial", Font.ITALIC, 18));
         sistema.setForeground(Color.white);
+        sistema.setHorizontalAlignment(JLabel.CENTER);
         principal.add(sistema, new GridBagConstraints(6,0,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
         JLabel bienvenida = new JLabel("Bienvenido/a \n" + usuario.getNomUsuario());
-        bienvenida.setFont(new Font("Arial", Font.PLAIN, 14));
+        bienvenida.setFont(new Font("Arial", Font.PLAIN, 16));
         bienvenida.setForeground(Color.WHITE);
         principal.add(bienvenida, new GridBagConstraints(6,5,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
         principal.add(btnCerrarSesion, new GridBagConstraints(6,7,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 80, 20));
