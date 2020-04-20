@@ -116,9 +116,6 @@ public class JPanelConsultaPrestamos extends JPanel {
         add(title, BorderLayout.NORTH);
         add(panel, BorderLayout.CENTER);
         tabla.setEnabled(false);
-        tabla.setUpdateSelectionOnSort(false);
-        tabla.setDragEnabled(false);
-        tabla.setColumnSelectionAllowed(false);
         tabla.getTableHeader().setReorderingAllowed(false);
         consultarPrestamos();
     }
@@ -163,17 +160,6 @@ public class JPanelConsultaPrestamos extends JPanel {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    public class TextAreaRenderer extends JTextArea implements TableCellRenderer { //Clase que nos permite desplegar la información de las celdas con mucgas oraciones
-        public TextAreaRenderer() {
-            setLineWrap(true);
-            setWrapStyleWord(true);
-        }
-        public Component getTableCellRendererComponent(JTable jTable, Object obj, boolean isSelected, boolean hasFocus, int row, int column) {
-            setText((String)obj);
-            return this;
         }
     }
 }

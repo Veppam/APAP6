@@ -162,6 +162,31 @@ public class ModificarMaterial extends JPanel{
 
         //Añade los elementos a ModificarMateriales
         Titulo.add(textoTitulo);
+        Materiales.getTableHeader().setReorderingAllowed(false);
+        Materiales.getColumn("Nombre").setCellRenderer(new TextAreaRenderer());
+        Materiales.setAutoResizeMode(0);
+        Materiales.getColumn("Imagen").setPreferredWidth(90);
+        Materiales.getColumn("Imagen").setMinWidth(90);
+        Materiales.getColumn("Imagen").setMaxWidth(90);
+        Materiales.getColumn("No. de Serie").setPreferredWidth(85);
+        Materiales.getColumn("No. de Serie").setMinWidth(85);
+        Materiales.getColumn("No. de Serie").setMaxWidth(85);
+        Materiales.getColumn("Nombre").setPreferredWidth(230);
+        Materiales.getColumn("Nombre").setMinWidth(230);
+        Materiales.getColumn("Nombre").setMaxWidth(230);
+        Materiales.getColumn("Cantidad Total").setPreferredWidth(100);
+        Materiales.getColumn("Cantidad Total").setMinWidth(100);
+        Materiales.getColumn("Cantidad Total").setMaxWidth(100);
+        Materiales.getColumn("En Uso").setPreferredWidth(70);
+        Materiales.getColumn("En Uso").setMinWidth(70);
+        Materiales.getColumn("En Uso").setMaxWidth(70);
+        Materiales.getColumn("Modificar").setPreferredWidth(85);
+        Materiales.getColumn("Modificar").setMinWidth(85);
+        Materiales.getColumn("Modificar").setMaxWidth(85);
+        Materiales.getColumn("Eliminar").setPreferredWidth(85);
+        Materiales.getColumn("Eliminar").setMinWidth(85);
+        Materiales.getColumn("Eliminar").setMaxWidth(85);
+        Materiales.setEnabled(false);
         Modificar = new JScrollPane(Materiales);
         add(Titulo, BorderLayout.NORTH);
         add(Modificar, BorderLayout.CENTER);
