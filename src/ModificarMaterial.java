@@ -30,6 +30,7 @@ public class ModificarMaterial extends JPanel{
         Titulo = new JPanel();
         Titulo.setLayout(new GridBagLayout());
         textoTitulo = new JLabel("Modificar Material");
+        textoTitulo.setFont(new Font("Arial", Font.PLAIN, 24));
 
         //Vectores usados para obtener los datos que van a ir en la tabla
         Vector temp;

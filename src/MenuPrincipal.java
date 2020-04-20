@@ -15,7 +15,6 @@ public class MenuPrincipal extends JFrame {
     private JPanel principal;
     private JPanel contenedor;
     private JPanel opciones;
-    private JPanel btnsOpciones;
     private JLabel txtEncabezado;
     private JPanel aux;
     private JMenuBar menu;
@@ -46,7 +45,7 @@ public class MenuPrincipal extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new GridLayout(1,1));
         principal = new JPanel();
-        principal.setBackground(new Color(100, 250,200));
+        principal.setBackground(Color.LIGHT_GRAY);
         principal.setLayout(new GridBagLayout());
         opciones = new JPanel();
         opciones.setLayout( new GridLayout(6,1) );
@@ -64,10 +63,10 @@ public class MenuPrincipal extends JFrame {
         menu = new JMenuBar();
         menuPrestamos = new JMenu("Préstamos",true);
         menuMateriales = new JMenu("Inventario", true);
-        itemConsultMat = new JMenuItem("Consultar",'C');
-        itemAgregarMat = new JMenuItem("Agregar Material",'A');
-        itemConsultPrest = new JMenuItem("Consultar Préstamos",'C');
-        itemHacerPrest = new JMenuItem("Registrar Préstamo",'R');
+        itemConsultMat = new JMenuItem("Consultar",'B');
+        itemAgregarMat = new JMenuItem("Agregar Material",'F');
+        itemConsultPrest = new JMenuItem("Consultar Préstamos",'H');
+        itemHacerPrest = new JMenuItem("Registrar Préstamo",'K');
         menuPrestamos.add( itemHacerPrest );
         menuPrestamos.add( itemConsultPrest );
         menuMateriales.add( itemAgregarMat );
@@ -101,8 +100,7 @@ public class MenuPrincipal extends JFrame {
         principal.add(contenedor, new GridBagConstraints(0,1,5,10,6.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));
         principal.add(txtEncabezado, new GridBagConstraints(6,1,1,2,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
         JLabel sistema = new JLabel("Administración de Préstamos de Audiovisuales P6");
-        sistema.setFont(new Font("Arial", Font.ITALIC, 18));
-        sistema.setForeground(Color.BLUE);
+        sistema.setFont(new Font("TimesRoman", Font.ITALIC, 18));
         principal.add(sistema, new GridBagConstraints(6,0,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
         principal.add(new JLabel("Bienvenido \n" + usuario.getNomUsuario()), new GridBagConstraints(6,5,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
         principal.add(btnCerrarSesion, new GridBagConstraints(6,7,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 80, 20));
@@ -151,9 +149,7 @@ public class MenuPrincipal extends JFrame {
                 contenedor.updateUI();
                 contenedor.repaint();
                 // Agrega el JPanel para agregar materiales en el JPanel contenedor
-                contenedor.setLayout(new BorderLayout());
-                AddMateriales adM = new AddMateriales(contenedor,usuario, "");
-                contenedor.add( adM.getPanela(), BorderLayout.CENTER );
+                contenedor.add (new AddMateriales(contenedor,usuario, null));
             }
         });
 

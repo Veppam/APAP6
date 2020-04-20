@@ -10,13 +10,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class AddMateriales extends JPanel {
-    private JPanel panela;
+public class AddMateriales extends JPanel{
+    private JLabel matL;
+    private JLabel cantL;
+    private JLabel idL;
+    private JLabel chusL;
     private JTextField id;
-    private JSpinner cant;
-    private JButton siChus;
     private JTextField mat;
+    private JSpinner cant;
     private JButton send;
+    private JButton siChus;
+    private JPanel panela;
     private JFileChooser chusma;
 
     private Usuario userr;
@@ -25,23 +29,85 @@ public class AddMateriales extends JPanel {
 
     //Constructor de AddMateriales, pide el JPanel que contiene a AddMateriales, el usuario que intenta agregar un material y el numero de serie del Material
     //En caso de que el numero de serie sea provisto, este no se pedira en el formulario para agregar un material
-    public AddMateriales(JPanel contenedor, Usuario user, String noSerie) {
-        chusma = new JFileChooser();
+    public AddMateriales(JPanel contenedor, Usuario user, Material datos){
+      
+        //Database db = new Database();
         userr = user;
-        cant.setValue(1);
-        //Si existe un ID, DESACTIVA JTextField que lo edita
-        if (noSerie.equals("") == false){
-            id.setEditable(false);
-            id.setEnabled(false);
-            id.setText(noSerie);
-        }
-
+        matL = new JLabel("Nombre:");
+        mat = new JTextField(20);
+        cantL = new JLabel("Cantidad:");
+        cant = new JSpinner();
+        id = new JTextField(20);
+        idL = new JLabel("N° serie:");
+        send = new JButton("Enviar");
+        //menu = new JButton("Regresar");
+        panela = new JPanel(new GridBagLayout());
+        chusL = new JLabel ("Seleccionar imagen (opcional):");
+        siChus = new JButton("Agregar");
+        chusma = new JFileChooser();
         //Filtro para imagenes JFileChooser
         FileNameExtensionFilter soloImgs = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
         chusma.addChoosableFileFilter(soloImgs);
         chusma.setAcceptAllFileFilterUsed(false);
+        //
+        cant.setPreferredSize(new Dimension(100, 25));
+        cant.setValue(1);
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        //-------FORM DATOS
 
-        add(panela);
+        //Si se proporciono un numero de serie este no sera solicitado nuevamente
+        if (datos == null) {
+            c.gridx = 0;
+            c.gridy = 0;
+            panela.add(idL, c);
+
+            c.gridx = 1;
+            c.gridy = 0;
+            panela.add(id, c);
+        }else{
+
+            mat.setText(datos.getNombre());
+            cant.setValue(datos.getCantDispon());
+
+        }
+      
+        c.gridx = 0;
+        c.gridy = 1;
+        panela.add(matL, c);
+
+        c.gridx = 1;
+        c.gridy = 1;
+        panela.add (mat, c);
+
+        c.gridx = 0;
+        c.gridy = 2;
+        panela.add(cantL, c);
+
+        c.gridx = 1;
+        c.gridy = 2;
+        panela.add(cant, c);
+
+        //-----AGREGAR FORM y BUTTONS
+        c.gridy = 1;
+        c.gridx = 2;
+        c.weighty = 0.1;
+        add(panela, c);
+
+        c.gridx = 1;
+        c.gridy = 3;
+        add(chusL, c);
+
+        c.gridx = 2;
+        c.gridy = 3;
+        add(siChus, c);
+
+        c.gridx = 3;
+        c.gridy = 4;
+        c.weighty = 0.1;
+        c.anchor = GridBagConstraints.PAGE_END;
+        add(send, c);
+
         setSize(600, 400);
         ImageIcon img = new ImageIcon("./img/icono.png");
         setVisible(true);
@@ -63,24 +129,24 @@ public class AddMateriales extends JPanel {
                 String idT;
 
                 //Si el numero de serie fue proporcionado como parametro del constructor este se le asigna como valor a idt
-                if (noSerie.isEmpty())
+                if (datos == null)
                     idT = id.getText();
                 else
-                    idT = noSerie;
+                    idT = String.valueOf(datos.getCod());
 
                 String sT = mat.getText();
                 //Revisa que
-                if (sT.equals("") == false && idT.matches("[0-9]{1,3}") == true) {
+                if (sT.equals("") == false && idT.matches("[0-9]{1,3}") == true){
                     int cT = (int) cant.getValue();
                     int idI = Integer.parseInt(idT);
 
-                    if (cT <= 0 || cT > 999) {
-                        JOptionPane.showConfirmDialog(null, "Mínimo 1, máximo 999 materiales", "ERROR", JOptionPane.OK_CANCEL_OPTION);
-                    } else {
+                    if (cT <= 0 || cT > 999){
+                        JOptionPane.showConfirmDialog(null, "Mínimo 1, máximo 999 materiales","ERROR", JOptionPane.OK_CANCEL_OPTION);
+                    }else{
                         if (yeahChus == JFileChooser.APPROVE_OPTION) {
                             olFile = chusma.getSelectedFile();
-                            if (olFile != null) {
-                                Path to = Paths.get("./img/" + olFile.getName());
+                            if (olFile != null){
+                                Path to = Paths.get("./img/"+olFile.getName());
                                 System.out.println("Save as file: " + olFile.getAbsolutePath() + olFile.getName());
                                 try {
                                     Files.copy(olFile.toPath(), to);
@@ -90,20 +156,20 @@ public class AddMateriales extends JPanel {
                             }
                         }
 
-                        if (olFile != null) {
+                        if (olFile != null){
                             System.out.println("Yeah");
 
                             //Si el numero de serie fue proporcionado como parametro del constructor se realiza una modificacion de material en vez de agregar uno nuevo
-                            if (noSerie.isEmpty())
-                                userr.agregarMaterial(idI, sT, cT, "./img/" + olFile.getName());
+                            if (datos == null)
+                                userr.agregarMaterial(idI, sT, cT, "./img/"+olFile.getName());
                             else
-                                userr.modificarMaterial(new Material(sT, idI, cT));
+                                userr.modificarMaterial(new Material( sT, idI, cT));
 
                         } else {
-                            if (noSerie.isEmpty())
+                            if (datos == null)
                                 userr.agregarMaterial(idI, sT, cT, "./imgs/controlProy.png");
                             else
-                                userr.modificarMaterial(new Material(sT, idI, cT));
+                                userr.modificarMaterial(new Material( sT, idI, cT));
                         }
                         //Muestra la tabla de materiales en el inventario
                         contenedor.removeAll();
@@ -112,14 +178,11 @@ public class AddMateriales extends JPanel {
                         contenedor.setLayout(new BorderLayout());
                         contenedor.add(new ModificarMaterial(contenedor, user), BorderLayout.CENTER);
                     }
-                } else {
+                }else{
                     JOptionPane.showConfirmDialog(null, "Tus datos están incorrectos (N° Serie son puros números)",
                             "ERROR", JOptionPane.OK_CANCEL_OPTION);
                 }
             }
         });
     }
-
-    public JPanel getPanela(){ return panela;}
 }
-
