@@ -6,6 +6,7 @@
     </constraints>
     <properties>
       <maximumSize width="362" height="137"/>
+      <preferredSize width="200" height="200"/>
     </properties>
     <border type="none"/>
     <children>
@@ -47,15 +48,6 @@
           <text value="                                       "/>
         </properties>
       </component>
-      <grid id="6f016" binding="datos" layout-manager="GridBagLayout">
-        <constraints>
-          <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children/>
-      </grid>
       <component id="90ad5" class="javax.swing.JButton" binding="btnAceptar">
         <constraints>
           <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -108,6 +100,25 @@
         </constraints>
         <properties/>
       </component>
+      <scrollpane id="51b4a" binding="contenedorDatos">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <opaque value="true"/>
+          <preferredSize width="200" height="140"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="489d" binding="datos" layout-manager="GridBagLayout">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>

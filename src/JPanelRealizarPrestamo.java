@@ -18,6 +18,7 @@ public class JPanelRealizarPrestamo {
     private JPanel datos;
     private JButton btnAceptar;
     private JButton btnCancelar;
+    private JScrollPane contenedorDatos;
 
     // Objeto que me ayudará con la comunicación con la base de datos
     private Database db;
@@ -111,15 +112,16 @@ public class JPanelRealizarPrestamo {
                     // Aumento la posición en 3 para llegar al siguiente JComboBox
                     pos += 3;
                 }
-                // Creo al objetoProfesor
-                Profesor prof = buscarProfesor(Integer.parseInt(txtNumProfesor.getText()));
-                // Si no hay materiales, se le informa al usuario
-                if ( materialesSeleccionados.size() == 0 )
-                    JOptionPane.showMessageDialog(null, "El préstamo debe contener al menos un material.");
+                // Creo al objeto Profesor
+                System.out.println("a"+txtNumProfesor.getText()+"a");
+                Profesor prof = buscarProfesor(Integer.parseInt((txtNumProfesor.getText().length()==0)?"0":txtNumProfesor.getText()));
                 // Si no existe ningún profesor con el número de trabajador ingresado, le informo al usuario
                 if ( prof == null )
                     JOptionPane.showMessageDialog(null, "El número de trabajador ingresado " +
                             "no existe. Inténtelo de nuevo.");
+                // Si no hay materiales, se le informa al usuario
+                if ( materialesSeleccionados.size() == 0 )
+                    JOptionPane.showMessageDialog(null, "El préstamo debe contener al menos un material.");
                 // Si existe el profesor con el número de trabajador ingresado y hay por lo menos un material seleccionado,
                 // se realiza el préstamo y regresa a consultar préstamos
                 if ( materialesSeleccionados.size() != 0 && prof != null ) {
@@ -136,6 +138,7 @@ public class JPanelRealizarPrestamo {
                 cancelar.doClick();
             }
         });
+
     }
 
     // Regresa el JPanel principal del form
