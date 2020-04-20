@@ -121,7 +121,6 @@ public class JPanelConsultaPrestamos extends JPanel {
         tabla.setColumnSelectionAllowed(false);
         tabla.getTableHeader().setReorderingAllowed(false);
         consultarPrestamos();
-        setBackground(new Color(70, 191,200));
     }
     public void consultarPrestamos(){
         ArrayList<Profesor> profesores = new ArrayList<Profesor>();
