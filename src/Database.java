@@ -28,6 +28,7 @@ public class Database {
             respuesta = sent.executeQuery(sql);
         } catch (SQLException e) {
             System.out.println("Error en consulta SQL");
+            System.out.println(e);
         }
         return respuesta;
     }
@@ -181,19 +182,6 @@ public class Database {
             }
         }
         return total;
-    }
-
-    //Modifica un material en la base de datos conforme al material recibido como parametro
-    public void modificarMaterial(Material materialModificado){
-        try {
-            Statement modificacion = con.createStatement();
-            modificacion.executeUpdate("UPDATE material SET nombre = " + materialModificado.getNombre() +
-                                        ", cantidad = " + materialModificado.getCantDispon() +
-                                        " WHERE id_material = " + materialModificado.getCod() + ";");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public Connection getConnection () {

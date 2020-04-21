@@ -11,10 +11,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class AddMateriales extends JPanel{
-    private JLabel matL;
-    private JLabel cantL;
-    private JLabel idL;
-    private JLabel chusL;
     private JTextField id;
     private JTextField mat;
     private JSpinner cant;
@@ -22,6 +18,7 @@ public class AddMateriales extends JPanel{
     private JButton siChus;
     private JPanel panela;
     private JLabel t;
+    private JLabel dirImg;
     private JFileChooser chusma;
 
     private Usuario userr;
@@ -31,15 +28,17 @@ public class AddMateriales extends JPanel{
     //Constructor de AddMateriales, pide el JPanel que contiene a AddMateriales, el usuario que intenta agregar un material y el numero de serie del Material
     //En caso de que el numero de serie sea provisto, este no se pedira en el formulario para agregar un material
     public AddMateriales(JPanel contenedor, Usuario user, Material datos){
-      
-        //Database db = new Database();
+
         userr = user;
         chusma = new JFileChooser();
+
         //Filtro para imagenes JFileChooser
         FileNameExtensionFilter soloImgs = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+
         chusma.addChoosableFileFilter(soloImgs);
         chusma.setAcceptAllFileFilterUsed(false);
         cant.setValue(1);
+
         //-------FORM DATOS
 
         //Si se proporciono un numero de serie este no sera solicitado nuevamente
@@ -92,6 +91,7 @@ public class AddMateriales extends JPanel{
                                 System.out.println("Save as file: " + olFile.getAbsolutePath() + olFile.getName());
                                 try {
                                     Files.copy(olFile.toPath(), to);
+                                    dirImg = new JLabel(olFile.getName());
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
@@ -99,17 +99,16 @@ public class AddMateriales extends JPanel{
                         }
 
                         if (olFile != null){
-                            System.out.println("Yeah");
 
                             //Si el numero de serie fue proporcionado como parametro del constructor se realiza una modificacion de material en vez de agregar uno nuevo
                             if (datos == null)
-                                userr.agregarMaterial(idI, sT, cT, "./img/"+olFile.getName());
+                                userr.agregarMaterial(idI, sT, cT, "./img/" + olFile.getName());
                             else
-                                userr.modificarMaterial(new Material( sT, idI, cT));
+                                userr.modificarMaterial(new Material( sT, idI, cT), "./img/" + olFile.getName());
 
                         } else {
                             if (datos == null)
-                                userr.agregarMaterial(idI, sT, cT, "./imgs/controlProy.png");
+                                userr.agregarMaterial(idI, sT, cT, "./img/img.jpg");
                             else
                                 userr.modificarMaterial(new Material( sT, idI, cT));
                         }

@@ -75,11 +75,26 @@ public class Usuario {
         }
     }
 
+    //Modifica un material en la base de datos conforme al material recibido como parametro
     public void modificarMaterial(Material materialModificado){
 
         db.exeSql("UPDATE material SET nombre = '" + materialModificado.getNombre() +
                   "', cantidad = '" + materialModificado.getCantDispon() +
                   "' WHERE id_material = " + materialModificado.getCod() + ";");
+        JOptionPane.showConfirmDialog(null, "Modificación Exitosa",
+                "EXITO", JOptionPane.OK_CANCEL_OPTION);
+    }
+    //Modifica un material en la base de datos conforme al material recibido como parametro y cambia la imagen asociada al material
+    public void modificarMaterial(Material materialModificado, String imgPath){
+
+        System.out.println("UPDATE material SET nombre = " + materialModificado.getNombre() +
+                ", cantidad = " + materialModificado.getCantDispon() +
+                " , dir_imagen = " + imgPath +
+                " WHERE id_material = " + materialModificado.getCod() + ";");
+        db.exeSql(  "UPDATE material SET nombre = \"" + materialModificado.getNombre() +
+                "\", cantidad = " + materialModificado.getCantDispon() +
+                " , dir_imagen = \"" + imgPath +
+                "\" WHERE id_material = " + materialModificado.getCod() + ";");
         JOptionPane.showConfirmDialog(null, "Modificación Exitosa",
                 "EXITO", JOptionPane.OK_CANCEL_OPTION);
     }
