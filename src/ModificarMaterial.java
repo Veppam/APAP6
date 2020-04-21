@@ -50,8 +50,8 @@ public class ModificarMaterial extends JPanel{
         JButton mod = new JButton("");
         JButton elim = new JButton("");
 
-        mod.setIcon(reajustarImg(new ImageIcon("img/edit.png"), 75, 55));
-        elim.setIcon(reajustarImg(new ImageIcon("img/trash.jpg"), 75, 55));
+        mod.setIcon(reajustarImg(new ImageIcon("./img/edit.png"), 75, 55));
+        elim.setIcon(reajustarImg(new ImageIcon("./img/trash.jpg"), 75, 55));
 
 
         //Vector que contiene los encabezados de la columna de la tabla

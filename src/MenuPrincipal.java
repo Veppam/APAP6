@@ -34,7 +34,7 @@ public class MenuPrincipal extends JFrame {
     public MenuPrincipal( Usuario us){
         cred = null;
         usuario = us;
-        icon = new ImageIcon("img/Icono.png").getImage();
+        icon = new ImageIcon("./img/Icono.png").getImage();
         // Configuraciones de los elementos del JFrame
         setIconImage(icon);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -56,7 +56,7 @@ public class MenuPrincipal extends JFrame {
         btnPrestamo.setPreferredSize(new Dimension(30,15));
         btnMateriales.setPreferredSize(new Dimension(30,15));
         txtEncabezado = new JLabel("");
-        txtEncabezado.setIcon( new ImageIcon( "img/Icono.png") );
+        txtEncabezado.setIcon( new ImageIcon( "./img/Icono.png") );
         contenedor = new JPanel();
         contenedor.setLayout( new FlowLayout(FlowLayout.CENTER) );
         contenedor.setBackground(new Color(70, 191,200));
@@ -179,7 +179,7 @@ public class MenuPrincipal extends JFrame {
                 cred.setResizable(false);
                 cred.setLocationRelativeTo(null);
                 JLabel credits = new JLabel();
-                credits.setIcon(new ImageIcon("img/Creditos.png"));
+                credits.setIcon(new ImageIcon("./img/Creditos.png"));
                 credits.setHorizontalAlignment(JLabel.CENTER);
                 // Agrega los componentes
                 imagen.add(credits, BorderLayout.CENTER);
